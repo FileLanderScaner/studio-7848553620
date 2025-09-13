@@ -33,13 +33,16 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, Sparkles, Clipboard, Download, Image as ImageIcon } from 'lucide-react';
+import { Loader2, Sparkles, Clipboard, Download, Image as ImageIcon, CalendarPlus } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AiSuggestions } from '@/components/ai-suggestions';
 import { generateContent, GenerateContentOutput } from '@/ai/flows/generate-content-flow';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { WeeklyStrategy } from '@/components/weekly-strategy';
+import { SchedulePostDialog } from '@/components/schedule-post-dialog';
+import type { ScheduledPost } from '@/lib/scheduled-posts';
+
 
 const formSchema = z.object({
   topic: z.string().min(5, 'Por favor, introduce un tema de al menos 5 caracteres.'),
@@ -49,10 +52,16 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function GeneratePage() {
+type GeneratePageProps = {
+  handleSchedulePost: (post: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => void;
+};
+
+export default function GeneratePage({ handleSchedulePost }: GeneratePageProps) {
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<GenerateContentOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isScheduleModalOpen, setScheduleModalOpen] = useState(false);
+
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -112,6 +121,15 @@ export default function GeneratePage() {
         description: `Tu ${result.type === 'image' ? 'imagen' : 'video'} ha comenzado a descargarse.`,
       });
     }
+  };
+
+  const onSchedule = (post: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => {
+    handleSchedulePost(post);
+    setScheduleModalOpen(false);
+    toast({
+      title: '¡Publicación programada!',
+      description: 'Tu contenido ha sido añadido al calendario.',
+    });
   };
 
   return (
@@ -271,6 +289,10 @@ export default function GeneratePage() {
                       Descargar
                     </Button>
                   )}
+                   <Button onClick={() => setScheduleModalOpen(true)}>
+                    <CalendarPlus className="mr-2 h-4 w-4" />
+                    Programar
+                  </Button>
                 </CardFooter>
               )}
             </Card>
@@ -283,6 +305,19 @@ export default function GeneratePage() {
           <WeeklyStrategy />
         </TabsContent>
       </Tabs>
+      
+      {result && (
+        <SchedulePostDialog
+            isOpen={isScheduleModalOpen}
+            onOpenChange={setScheduleModalOpen}
+            onSchedulePost={onSchedule}
+            initialData={{
+                title: form.getValues('topic'),
+                type: result.type,
+                imageUrl: result.type === 'image' ? result.data : '',
+            }}
+        />
+      )}
     </div>
   );
 }

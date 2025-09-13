@@ -12,29 +12,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import { ScheduledPost } from '@/lib/scheduled-posts';
+import { useToast } from '@/hooks/use-toast';
+import { SchedulePostDialog } from '@/components/schedule-post-dialog';
 
 const optimalTimes = [
   { platform: 'Instagram', time: '9:00 AM - 11:00 AM' },
@@ -43,54 +27,33 @@ const optimalTimes = [
   { platform: 'LinkedIn', time: '10:00 AM - 12:00 PM' },
 ];
 
-type NewPostState = {
-  title: string;
-  time: string;
-  platform: string;
-  imageUrl: string;
-  imageHint: string;
-}
-
-const initialNewPostState: NewPostState = {
-  title: '',
-  time: '10:00',
-  platform: 'Twitter',
-  imageUrl: '',
-  imageHint: '',
-}
-
 type SchedulePageProps = {
     scheduledPosts: ScheduledPost[];
     handleSchedulePost: (post: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => void;
 };
 
-
-export default function SchedulePage({ scheduledPosts = [], handleSchedulePost: onSchedulePost }: SchedulePageProps) {
+export default function SchedulePage({ scheduledPosts = [], handleSchedulePost }: SchedulePageProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newPost, setNewPost] = useState<NewPostState>(initialNewPostState);
+  const { toast } = useToast();
 
-  const handleInputChange = (field: keyof NewPostState, value: string) => {
-    setNewPost(prev => ({ ...prev, [field]: value }));
-  };
+  const onSchedulePost = (newPost: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => {
+    if (selectedDate) {
+      const [hours, minutes] = (newPost.date.toString()).split(':').map(Number);
+      const finalDate = new Date(selectedDate);
+      finalDate.setHours(hours, minutes);
 
-  const handleSchedulePost = () => {
-    if (newPost.title && selectedDate) {
-      const [hours, minutes] = newPost.time.split(':').map(Number);
-      const newDate = new Date(selectedDate);
-      newDate.setHours(hours, minutes);
-
-      const postToAdd = {
-        title: newPost.title,
-        type: newPost.imageUrl ? 'Imagen' : 'Texto',
-        date: newDate,
-        platform: newPost.platform,
-        image: newPost.imageUrl || `https://picsum.photos/seed/post${scheduledPosts.length + 1}/200/200`,
-        imageHint: newPost.imageHint || 'abstract',
+      const postWithDate = {
+        ...newPost,
+        date: finalDate,
       };
-      onSchedulePost(postToAdd);
+
+      handleSchedulePost(postWithDate);
       setIsModalOpen(false);
-      setNewPost(initialNewPostState);
+      toast({
+        title: '¡Publicación programada!',
+        description: 'Tu contenido ha sido añadido al calendario.',
+      });
     }
   };
   
@@ -104,104 +67,16 @@ export default function SchedulePage({ scheduledPosts = [], handleSchedulePost: 
           description="Organiza y programa tus publicaciones fácilmente."
           className="mb-0"
         />
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogTrigger asChild>
-            <Button>
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Nueva Publicación
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Programar Nueva Publicación</DialogTitle>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="title" className="text-right">
-                  Título
-                </Label>
-                <Input
-                  id="title"
-                  value={newPost.title}
-                  onChange={(e) => handleInputChange('title', e.target.value)}
-                  className="col-span-3"
-                  placeholder="Ej: Mi nuevo post increíble"
-                />
-              </div>
-               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="platform" className="text-right">
-                  Plataforma
-                </Label>
-                 <Select
-                    value={newPost.platform}
-                    onValueChange={(value) => handleInputChange('platform', value)}
-                  >
-                    <SelectTrigger className="col-span-3">
-                      <SelectValue placeholder="Selecciona una plataforma" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Instagram">Instagram</SelectItem>
-                      <SelectItem value="Facebook">Facebook</SelectItem>
-                      <SelectItem value="TikTok">TikTok</SelectItem>
-                      <SelectItem value="LinkedIn">LinkedIn</SelectItem>
-                      <SelectItem value="Twitter">Twitter</SelectItem>
-                      <SelectItem value="Pinterest">Pinterest</SelectItem>
-                    </SelectContent>
-                  </Select>
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="date" className="text-right">
-                  Fecha
-                </Label>
-                <div className="col-span-3 text-sm">
-                   {selectedDate ? format(selectedDate, 'PPP', { locale: es }) : 'Selecciona una fecha'}
-                </div>
-              </div>
-               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="time" className="text-right">
-                  Hora
-                </Label>
-                <Input
-                  id="time"
-                  type="time"
-                  value={newPost.time}
-                  onChange={(e) => handleInputChange('time', e.target.value)}
-                  className="col-span-3"
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="imageUrl" className="text-right">
-                  URL de Imagen
-                </Label>
-                <Input
-                  id="imageUrl"
-                  value={newPost.imageUrl}
-                  onChange={(e) => handleInputChange('imageUrl', e.target.value)}
-                  className="col-span-3"
-                  placeholder="https://ejemplo.com/imagen.png"
-                />
-              </div>
-               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="imageHint" className="text-right">
-                  Pista para IA
-                </Label>
-                <Input
-                  id="imageHint"
-                  value={newPost.imageHint}
-                  onChange={(e) => handleInputChange('imageHint', e.target.value)}
-                  className="col-span-3"
-                  placeholder="Ej: persona sonriendo"
-                />
-              </div>
-            </div>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">Cancelar</Button>
-              </DialogClose>
-              <Button onClick={handleSchedulePost}>Programar</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <Button onClick={() => setIsModalOpen(true)}>
+          <PlusCircle className="mr-2 h-4 w-4" />
+          Nueva Publicación
+        </Button>
+        <SchedulePostDialog
+          isOpen={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          onSchedulePost={onSchedulePost}
+          selectedDate={selectedDate}
+        />
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3">

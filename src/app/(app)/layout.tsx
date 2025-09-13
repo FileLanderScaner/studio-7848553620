@@ -19,27 +19,24 @@ export default function AppLayout({
   );
 
   const handleSchedulePost = (newPostData: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => {
-    const postToAdd: ScheduledPost = {
-      ...newPostData,
-      id: scheduledPosts.length + 1,
-      likes: 0,
-      comments: 0,
-      shares: 0,
-    };
-    setScheduledPosts((prevPosts) =>
-      [...prevPosts, postToAdd].sort(
-        (a, b) => a.date.getTime() - b.date.getTime()
-      )
-    );
+    setScheduledPosts((prevPosts) => {
+        const postToAdd: ScheduledPost = {
+            ...newPostData,
+            id: (prevPosts[prevPosts.length - 1]?.id ?? 0) + 1,
+            likes: Math.floor(Math.random() * 200),
+            comments: Math.floor(Math.random() * 50),
+            shares: Math.floor(Math.random() * 20),
+        };
+        return [...prevPosts, postToAdd].sort(
+            (a, b) => a.date.getTime() - b.date.getTime()
+        );
+    });
   };
   
   const childrenWithProps = React.Children.map(children, (child) => {
     if (React.isValidElement(child)) {
-      return React.cloneElement(child, {
-        scheduledPosts,
-        handleSchedulePost,
-        // @ts-ignore
-      } as { scheduledPosts: ScheduledPost[], handleSchedulePost: (post: any) => void });
+      // @ts-ignore
+      return React.cloneElement(child, { scheduledPosts, handleSchedulePost });
     }
     return child;
   });
