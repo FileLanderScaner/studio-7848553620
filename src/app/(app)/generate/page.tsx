@@ -39,6 +39,7 @@ import { AiSuggestions } from '@/components/ai-suggestions';
 import { generateContent, GenerateContentOutput } from '@/ai/flows/generate-content-flow';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
+import { WeeklyStrategy } from '@/components/weekly-strategy';
 
 const formSchema = z.object({
   topic: z.string().min(5, 'Por favor, introduce un tema de al menos 5 caracteres.'),
@@ -121,9 +122,10 @@ export default function GeneratePage() {
       />
 
       <Tabs defaultValue="generate-new">
-        <TabsList className="mb-6 grid w-full grid-cols-2">
+        <TabsList className="mb-6 grid w-full grid-cols-3">
           <TabsTrigger value="generate-new">Generar Nuevo</TabsTrigger>
           <TabsTrigger value="ai-suggestions">Sugerencias IA</TabsTrigger>
+          <TabsTrigger value="weekly-strategy">Estrategia Semanal</TabsTrigger>
         </TabsList>
         <TabsContent value="generate-new">
           <div className="grid gap-8 md:grid-cols-2">
@@ -276,6 +278,9 @@ export default function GeneratePage() {
         </TabsContent>
         <TabsContent value="ai-suggestions">
           <AiSuggestions />
+        </TabsContent>
+        <TabsContent value="weekly-strategy">
+          <WeeklyStrategy />
         </TabsContent>
       </Tabs>
     </div>
