@@ -17,7 +17,7 @@ import {
   ThumbsUp,
 } from 'lucide-react';
 import Link from 'next/link';
-import { scheduledPosts } from '@/lib/scheduled-posts';
+import { ScheduledPost } from '@/lib/scheduled-posts';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { format } from 'date-fns';
@@ -50,36 +50,41 @@ const features = [
   },
 ];
 
-const likes = scheduledPosts.reduce((acc, post) => acc + (post.likes || 0), 0);
-const comments = scheduledPosts.reduce(
-  (acc, post) => acc + (post.comments || 0),
-  0
-);
-const shares = scheduledPosts.reduce((acc, post) => acc + (post.shares || 0), 0);
+type DashboardPageProps = {
+  scheduledPosts: ScheduledPost[];
+};
 
-const stats = [
-  {
-    icon: ThumbsUp,
-    label: 'Likes Totales',
-    value: likes.toLocaleString(),
-  },
-  {
-    icon: MessageSquare,
-    label: 'Comentarios Totales',
-    value: comments.toLocaleString(),
-  },
-  {
-    icon: Share2,
-    label: 'Compartidos Totales',
-    value: shares.toLocaleString(),
-  },
-];
+export default function DashboardPage({ scheduledPosts = [] }: DashboardPageProps) {
 
-const upcomingPost = scheduledPosts
-  .filter((post) => post.date >= new Date())
-  .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+  const likes = scheduledPosts.reduce((acc, post) => acc + (post.likes || 0), 0);
+  const comments = scheduledPosts.reduce(
+    (acc, post) => acc + (post.comments || 0),
+    0
+  );
+  const shares = scheduledPosts.reduce((acc, post) => acc + (post.shares || 0), 0);
+  
+  const stats = [
+    {
+      icon: ThumbsUp,
+      label: 'Likes Totales',
+      value: likes.toLocaleString(),
+    },
+    {
+      icon: MessageSquare,
+      label: 'Comentarios Totales',
+      value: comments.toLocaleString(),
+    },
+    {
+      icon: Share2,
+      label: 'Compartidos Totales',
+      value: shares.toLocaleString(),
+    },
+  ];
 
-export default function DashboardPage() {
+  const upcomingPost = scheduledPosts
+    .filter((post) => post.date >= new Date())
+    .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+    
   return (
     <div className="container mx-auto px-0">
       <PageHeader

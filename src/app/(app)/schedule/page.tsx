@@ -34,7 +34,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PlusCircle } from 'lucide-react';
 import Image from 'next/image';
-import { scheduledPosts as initialScheduledPosts, ScheduledPost } from '@/lib/scheduled-posts';
+import { ScheduledPost } from '@/lib/scheduled-posts';
 
 const optimalTimes = [
   { platform: 'Instagram', time: '9:00 AM - 11:00 AM' },
@@ -59,8 +59,13 @@ const initialNewPostState: NewPostState = {
   imageHint: '',
 }
 
-export default function SchedulePage() {
-  const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>(initialScheduledPosts);
+type SchedulePageProps = {
+    scheduledPosts: ScheduledPost[];
+    handleSchedulePost: (post: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => void;
+};
+
+
+export default function SchedulePage({ scheduledPosts = [], handleSchedulePost: onSchedulePost }: SchedulePageProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newPost, setNewPost] = useState<NewPostState>(initialNewPostState);
@@ -75,19 +80,15 @@ export default function SchedulePage() {
       const newDate = new Date(selectedDate);
       newDate.setHours(hours, minutes);
 
-      const postToAdd: ScheduledPost = {
-        id: scheduledPosts.length + 1,
+      const postToAdd = {
         title: newPost.title,
         type: newPost.imageUrl ? 'Imagen' : 'Texto',
         date: newDate,
         platform: newPost.platform,
         image: newPost.imageUrl || `https://picsum.photos/seed/post${scheduledPosts.length + 1}/200/200`,
         imageHint: newPost.imageHint || 'abstract',
-        likes: 0,
-        comments: 0,
-        shares: 0,
       };
-      setScheduledPosts(prevPosts => [...prevPosts, postToAdd].sort((a,b) => a.date.getTime() - b.date.getTime()));
+      onSchedulePost(postToAdd);
       setIsModalOpen(false);
       setNewPost(initialNewPostState);
     }
