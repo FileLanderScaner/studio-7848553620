@@ -23,6 +23,13 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PlusCircle } from 'lucide-react';
@@ -36,35 +43,53 @@ const optimalTimes = [
   { platform: 'LinkedIn', time: '10:00 AM - 12:00 PM' },
 ];
 
+type NewPostState = {
+  title: string;
+  time: string;
+  platform: string;
+  imageUrl: string;
+  imageHint: string;
+}
+
+const initialNewPostState: NewPostState = {
+  title: '',
+  time: '10:00',
+  platform: 'Twitter',
+  imageUrl: '',
+  imageHint: '',
+}
+
 export default function SchedulePage() {
   const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>(initialScheduledPosts);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newPostTitle, setNewPostTitle] = useState('');
-  const [newPostTime, setNewPostTime] = useState('10:00');
+  const [newPost, setNewPost] = useState<NewPostState>(initialNewPostState);
+
+  const handleInputChange = (field: keyof NewPostState, value: string) => {
+    setNewPost(prev => ({ ...prev, [field]: value }));
+  };
 
   const handleSchedulePost = () => {
-    if (newPostTitle && selectedDate) {
-      const [hours, minutes] = newPostTime.split(':').map(Number);
+    if (newPost.title && selectedDate) {
+      const [hours, minutes] = newPost.time.split(':').map(Number);
       const newDate = new Date(selectedDate);
       newDate.setHours(hours, minutes);
 
-      const newPost: ScheduledPost = {
+      const postToAdd: ScheduledPost = {
         id: scheduledPosts.length + 1,
-        title: newPostTitle,
-        type: 'Texto',
+        title: newPost.title,
+        type: newPost.imageUrl ? 'Imagen' : 'Texto',
         date: newDate,
-        platform: 'Twitter',
-        image: `https://picsum.photos/seed/post${scheduledPosts.length + 1}/200/200`,
-        imageHint: 'abstract text',
-        likes: Math.floor(Math.random() * 200),
-        comments: Math.floor(Math.random() * 50),
-        shares: Math.floor(Math.random() * 30),
+        platform: newPost.platform,
+        image: newPost.imageUrl || `https://picsum.photos/seed/post${scheduledPosts.length + 1}/200/200`,
+        imageHint: newPost.imageHint || 'abstract',
+        likes: 0,
+        comments: 0,
+        shares: 0,
       };
-      setScheduledPosts(prevPosts => [...prevPosts, newPost].sort((a,b) => a.date.getTime() - b.date.getTime()));
+      setScheduledPosts(prevPosts => [...prevPosts, postToAdd].sort((a,b) => a.date.getTime() - b.date.getTime()));
       setIsModalOpen(false);
-      setNewPostTitle('');
-      setNewPostTime('10:00');
+      setNewPost(initialNewPostState);
     }
   };
   
@@ -96,11 +121,32 @@ export default function SchedulePage() {
                 </Label>
                 <Input
                   id="title"
-                  value={newPostTitle}
-                  onChange={(e) => setNewPostTitle(e.target.value)}
+                  value={newPost.title}
+                  onChange={(e) => handleInputChange('title', e.target.value)}
                   className="col-span-3"
                   placeholder="Ej: Mi nuevo post increíble"
                 />
+              </div>
+               <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="platform" className="text-right">
+                  Plataforma
+                </Label>
+                 <Select
+                    value={newPost.platform}
+                    onValueChange={(value) => handleInputChange('platform', value)}
+                  >
+                    <SelectTrigger className="col-span-3">
+                      <SelectValue placeholder="Selecciona una plataforma" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Instagram">Instagram</SelectItem>
+                      <SelectItem value="Facebook">Facebook</SelectItem>
+                      <SelectItem value="TikTok">TikTok</SelectItem>
+                      <SelectItem value="LinkedIn">LinkedIn</SelectItem>
+                      <SelectItem value="Twitter">Twitter</SelectItem>
+                      <SelectItem value="Pinterest">Pinterest</SelectItem>
+                    </SelectContent>
+                  </Select>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="date" className="text-right">
@@ -117,9 +163,33 @@ export default function SchedulePage() {
                 <Input
                   id="time"
                   type="time"
-                  value={newPostTime}
-                  onChange={(e) => setNewPostTime(e.target.value)}
+                  value={newPost.time}
+                  onChange={(e) => handleInputChange('time', e.target.value)}
                   className="col-span-3"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="imageUrl" className="text-right">
+                  URL de Imagen
+                </Label>
+                <Input
+                  id="imageUrl"
+                  value={newPost.imageUrl}
+                  onChange={(e) => handleInputChange('imageUrl', e.target.value)}
+                  className="col-span-3"
+                  placeholder="https://ejemplo.com/imagen.png"
+                />
+              </div>
+               <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="imageHint" className="text-right">
+                  Pista para IA
+                </Label>
+                <Input
+                  id="imageHint"
+                  value={newPost.imageHint}
+                  onChange={(e) => handleInputChange('imageHint', e.target.value)}
+                  className="col-span-3"
+                  placeholder="Ej: persona sonriendo"
                 />
               </div>
             </div>
