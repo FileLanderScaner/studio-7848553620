@@ -7,26 +7,32 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { MessageSquare, Share2, ThumbsUp } from 'lucide-react';
+import { scheduledPosts } from '@/lib/scheduled-posts';
+
+const likes = scheduledPosts.reduce((acc, post) => acc + (post.likes || 0), 0);
+const comments = scheduledPosts.reduce((acc, post) => acc + (post.comments || 0), 0);
+const shares = scheduledPosts.reduce((acc, post) => acc + (post.shares || 0), 0);
+
 
 const stats = [
   {
     icon: ThumbsUp,
     label: 'Likes',
-    value: '12,450',
+    value: likes.toLocaleString(),
     change: '+12.5%',
     changeType: 'positive',
   },
   {
     icon: MessageSquare,
     label: 'Comentarios',
-    value: '3,890',
+    value: comments.toLocaleString(),
     change: '+8.2%',
     changeType: 'positive',
   },
   {
     icon: Share2,
     label: 'Compartidos',
-    value: '1,204',
+    value: shares.toLocaleString(),
     change: '-1.5%',
     changeType: 'negative',
   },
@@ -63,7 +69,7 @@ export default function AnalyticsPage() {
         ))}
       </div>
 
-      <EngagementCharts />
+      <EngagementCharts posts={scheduledPosts} />
     </div>
   );
 }

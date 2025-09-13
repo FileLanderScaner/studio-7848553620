@@ -27,36 +27,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { PlusCircle } from 'lucide-react';
 import Image from 'next/image';
-
-const initialScheduledPosts = [
-  {
-    id: 1,
-    title: '5 tips para crecer en Instagram',
-    type: 'Imagen',
-    date: new Date('2024-08-15T10:00:00'),
-    platform: 'Instagram',
-    image: 'https://picsum.photos/seed/insta1/200/200',
-    imageHint: 'social media flatlay',
-  },
-  {
-    id: 2,
-    title: 'Análisis del nuevo iPhone',
-    type: 'Video',
-    date: new Date('2024-08-15T18:30:00'),
-    platform: 'YouTube',
-    image: 'https://picsum.photos/seed/yt1/200/200',
-    imageHint: 'tech gadget',
-  },
-  {
-    id: 3,
-    title: 'Cómo la IA está cambiando el marketing',
-    type: 'Texto',
-    date: new Date('2024-08-16T09:00:00'),
-    platform: 'LinkedIn',
-    image: 'https://picsum.photos/seed/li1/200/200',
-    imageHint: 'business meeting',
-  },
-];
+import { scheduledPosts as initialScheduledPosts, ScheduledPost } from '@/lib/scheduled-posts';
 
 const optimalTimes = [
   { platform: 'Instagram', time: '9:00 AM - 11:00 AM' },
@@ -66,7 +37,7 @@ const optimalTimes = [
 ];
 
 export default function SchedulePage() {
-  const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts);
+  const [scheduledPosts, setScheduledPosts] = useState<ScheduledPost[]>(initialScheduledPosts);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newPostTitle, setNewPostTitle] = useState('');
@@ -78,7 +49,7 @@ export default function SchedulePage() {
       const newDate = new Date(selectedDate);
       newDate.setHours(hours, minutes);
 
-      const newPost = {
+      const newPost: ScheduledPost = {
         id: scheduledPosts.length + 1,
         title: newPostTitle,
         type: 'Texto',
@@ -86,6 +57,9 @@ export default function SchedulePage() {
         platform: 'Twitter',
         image: `https://picsum.photos/seed/post${scheduledPosts.length + 1}/200/200`,
         imageHint: 'abstract text',
+        likes: Math.floor(Math.random() * 200),
+        comments: Math.floor(Math.random() * 50),
+        shares: Math.floor(Math.random() * 30),
       };
       setScheduledPosts(prevPosts => [...prevPosts, newPost].sort((a,b) => a.date.getTime() - b.date.getTime()));
       setIsModalOpen(false);
@@ -184,7 +158,7 @@ export default function SchedulePage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {scheduledPosts.map((post) => (
+                {scheduledPosts.filter(post => post.date >= new Date()).map((post) => (
                   <div key={post.id} className="flex items-start gap-4">
                     <Image
                       src={post.image}

@@ -26,16 +26,12 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from '@/components/ui/chart';
+import { ScheduledPost } from '@/lib/scheduled-posts';
+import { format } from 'date-fns';
 
-const engagementData = [
-  { date: '01/08', likes: 28, comments: 5, shares: 3 },
-  { date: '02/08', likes: 35, comments: 8, shares: 5 },
-  { date: '03/08', likes: 42, comments: 10, shares: 7 },
-  { date: '04/08', likes: 30, comments: 7, shares: 4 },
-  { date: '05/08', likes: 55, comments: 15, shares: 12 },
-  { date: '06/08', likes: 60, comments: 18, shares: 15 },
-  { date: '07/08', likes: 48, comments: 12, shares: 9 },
-];
+type EngagementChartsProps = {
+  posts: ScheduledPost[];
+};
 
 const chartConfig: ChartConfig = {
   likes: {
@@ -52,18 +48,30 @@ const chartConfig: ChartConfig = {
   },
 };
 
-const totalEngagementData = [
-  { name: 'Likes', value: 3000, fill: 'var(--color-likes)' },
-  { name: 'Comentarios', value: 800, fill: 'var(--color-comments)' },
-  { name: 'Compartidos', value: 450, fill: 'var(--color-shares)' },
-];
+export function EngagementCharts({ posts }: EngagementChartsProps) {
+    const engagementData = posts.sort((a,b) => a.date.getTime() - b.date.getTime()).map((post) => ({
+      date: format(post.date, 'dd/MM'),
+      likes: post.likes || 0,
+      comments: post.comments || 0,
+      shares: post.shares || 0,
+    })).slice(-7); // Get last 7 posts for the daily trend
 
-export function EngagementCharts() {
+    const totalLikes = posts.reduce((acc, post) => acc + (post.likes || 0), 0);
+    const totalComments = posts.reduce((acc, post) => acc + (post.comments || 0), 0);
+    const totalShares = posts.reduce((acc, post) => acc + (post.shares || 0), 0);
+
+    const totalEngagementData = [
+      { name: 'Likes', value: totalLikes, fill: 'var(--color-likes)' },
+      { name: 'Comentarios', value: totalComments, fill: 'var(--color-comments)' },
+      { name: 'Compartidos', value: totalShares, fill: 'var(--color-shares)' },
+    ];
+
+
   return (
     <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle>Interacción en los Últimos 7 Días</CardTitle>
+          <CardTitle>Interacción en las Últimas Publicaciones</CardTitle>
           <CardDescription>
             Un vistazo a cómo ha evolucionado la interacción.
           </CardDescription>
