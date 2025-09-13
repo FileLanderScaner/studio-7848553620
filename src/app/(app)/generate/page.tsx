@@ -121,9 +121,9 @@ export default function GeneratePage() {
       />
 
       <Tabs defaultValue="generate-new">
-        <TabsList className="mb-6 grid w-full grid-cols-1">
+        <TabsList className="mb-6 grid w-full grid-cols-2">
           <TabsTrigger value="generate-new">Generar Nuevo</TabsTrigger>
-          {/* <TabsTrigger value="ai-suggestions">Sugerencias IA</TabsTrigger> */}
+          <TabsTrigger value="ai-suggestions">Sugerencias IA</TabsTrigger>
         </TabsList>
         <TabsContent value="generate-new">
           <div className="grid gap-8 md:grid-cols-2">
@@ -274,9 +274,9 @@ export default function GeneratePage() {
             </Card>
           </div>
         </TabsContent>
-        {/* <TabsContent value="ai-suggestions">
+        <TabsContent value="ai-suggestions">
           <AiSuggestions />
-        </TabsContent> */}
+        </TabsContent>
       </Tabs>
     </div>
   );
