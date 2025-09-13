@@ -1,4 +1,9 @@
-import { config } from 'dotenv';
+'use server';
+/**
+ * @fileOverview A file to import and register all Genkit flows for development.
+ */
+
+import {config} from 'dotenv';
 config();
 
 import '@/ai/flows/ai-powered-content-suggestions.ts';
