@@ -87,7 +87,7 @@ export default function SchedulePage() {
         image: `https://picsum.photos/seed/post${scheduledPosts.length + 1}/200/200`,
         imageHint: 'abstract text',
       };
-      setScheduledPosts([...scheduledPosts].sort((a,b) => a.date.getTime() - b.date.getTime()));
+      setScheduledPosts(prevPosts => [...prevPosts, newPost].sort((a,b) => a.date.getTime() - b.date.getTime()));
       setIsModalOpen(false);
       setNewPostTitle('');
     }
