@@ -233,7 +233,9 @@ export default function GeneratePage() {
                 {result && (
                   <div className="w-full">
                     {result.type === 'text' && (
-                      <p className="whitespace-pre-wrap text-sm">{result.data}</p>
+                      <p className="whitespace-pre-wrap font-body text-sm">
+                        {result.data}
+                      </p>
                     )}
                     {result.type === 'image' && (
                       <Image
@@ -247,17 +249,7 @@ export default function GeneratePage() {
                     )}
                     {result.type === 'video' && (
                       <div className="relative">
-                        <Image
-                          src={result.data}
-                          alt="Contenido de video generado"
-                          width={600}
-                          height={400}
-                          className="rounded-lg object-cover"
-                          data-ai-hint="abstract video"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/40">
-                          <PlayCircle className="h-16 w-16 text-white/80" />
-                        </div>
+                        <video controls src={result.data} width="600" height="400" className="rounded-lg object-cover" data-ai-hint="abstract video" />
                       </div>
                     )}
                   </div>
