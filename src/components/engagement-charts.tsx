@@ -56,61 +56,54 @@ export function EngagementCharts({ posts }: EngagementChartsProps) {
       shares: post.shares || 0,
     })).slice(-7); // Get last 7 posts for the daily trend
 
-    const totalLikes = posts.reduce((acc, post) => acc + (post.likes || 0), 0);
-    const totalComments = posts.reduce((acc, post) => acc + (post.comments || 0), 0);
-    const totalShares = posts.reduce((acc, post) => acc + (post.shares || 0), 0);
-
-    const totalEngagementData = [
-      { name: 'Likes', value: totalLikes, fill: 'var(--color-likes)' },
-      { name: 'Comentarios', value: totalComments, fill: 'var(--color-comments)' },
-      { name: 'Compartidos', value: totalShares, fill: 'var(--color-shares)' },
-    ];
+    const engagementByPostData = posts.map(post => ({
+        name: post.title.substring(0, 15) + (post.title.length > 15 ? '...' : ''),
+        likes: post.likes || 0,
+        comments: post.comments || 0,
+        shares: post.shares || 0,
+    })).slice(-5);
 
 
   return (
     <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle>Interacción en las Últimas Publicaciones</CardTitle>
+          <CardTitle>Tendencia de Interacción</CardTitle>
           <CardDescription>
-            Un vistazo a cómo ha evolucionado la interacción.
+            Interacción en las últimas 7 publicaciones.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[300px] w-full">
-            <LineChart data={engagementData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+            <LineChart accessibilityLayer data={engagementData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
               <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={8} />
               <YAxis tickLine={false} axisLine={false} tickMargin={8} />
-              <ChartTooltipWrapper content={<ChartTooltipContent />} />
+              <ChartTooltipWrapper content={<ChartTooltipContent indicator="dot" />} />
               <ChartLegend content={<ChartLegendContent />} />
-              <Line type="monotone" dataKey="likes" stroke="var(--color-likes)" strokeWidth={2} dot={false} />
-              <Line type="monotone" dataKey="comments" stroke="var(--color-comments)" strokeWidth={2} dot={false} />
-              <Line type="monotone" dataKey="shares" stroke="var(--color-shares)" strokeWidth={2} dot={false} />
+              <Line type="monotone" dataKey="likes" stroke="var(--color-likes)" strokeWidth={2} dot={{ fill: 'var(--color-likes)', r: 4 }} />
+              <Line type="monotone" dataKey="comments" stroke="var(--color-comments)" strokeWidth={2} dot={{ fill: 'var(--color-comments)', r: 4 }} />
+              <Line type="monotone" dataKey="shares" stroke="var(--color-shares)" strokeWidth={2} dot={{ fill: 'var(--color-shares)', r: 4 }} />
             </LineChart>
           </ChartContainer>
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Desglose de Interacción Total</CardTitle>
+          <CardTitle>Desglose por Publicación</CardTitle>
           <CardDescription>
-            Distribución total de las interacciones.
+            Interacción en las últimas 5 publicaciones.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig} className="h-[300px] w-full">
-            <BarChart data={totalEngagementData} layout="vertical" margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-              <XAxis type="number" hide />
-              <YAxis
-                dataKey="name"
-                type="category"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                width={80}
-              />
-              <ChartTooltipWrapper cursor={false} content={<ChartTooltipContent indicator="line" />} />
-              <Bar dataKey="value" radius={5} />
+            <BarChart accessibilityLayer data={engagementByPostData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+              <XAxis dataKey="name" type="category" tickLine={false} axisLine={false} tickMargin={8} />
+              <YAxis />
+              <ChartTooltipWrapper content={<ChartTooltipContent indicator="dot" />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="likes" fill="var(--color-likes)" radius={4} />
+              <Bar dataKey="comments" fill="var(--color-comments)" radius={4} />
+              <Bar dataKey="shares" fill="var(--color-shares)" radius={4} />
             </BarChart>
           </ChartContainer>
         </CardContent>
