@@ -86,11 +86,15 @@ The output should be just the text for the post.
       }
       
       const media = video.media;
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        throw new Error('GEMINI_API_KEY environment variable not set.');
+      }
 
       const fetch = (await import('node-fetch')).default;
       // Add API key before fetching the video.
       const videoDownloadResponse = await fetch(
-        `${media.url}&key=${process.env.GEMINI_API_KEY}`
+        `${media.url}&key=${apiKey}`
       );
 
       if (
