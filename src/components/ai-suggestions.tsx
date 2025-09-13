@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader2, Wand2 } from 'lucide-react';
+import { Loader2, Sparkles } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 
 const formSchema = z.object({
@@ -97,7 +97,7 @@ export function AiSuggestions() {
                 {isPending ? (
                   <Loader2 className="animate-spin" />
                 ) : (
-                  <Wand2 />
+                  <Sparkles />
                 )}
                 <span>Obtener Sugerencias</span>
               </Button>

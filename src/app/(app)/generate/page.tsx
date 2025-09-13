@@ -33,7 +33,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, PlayCircle, Sparkles, Clipboard, Download } from 'lucide-react';
+import { Loader2, PlayCircle, Sparkles, Clipboard, Download, Image as ImageIcon } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AiSuggestions } from '@/components/ai-suggestions';
 import { generateContent, GenerateContentOutput } from '@/ai/flows/generate-content-flow';
@@ -221,8 +221,11 @@ export default function GeneratePage() {
               <CardContent className="flex flex-1 items-center justify-center rounded-lg border-2 border-dashed bg-muted/50 p-4">
                 {isPending && <Loader2 className="h-10 w-10 animate-spin text-primary" />}
                 {!isPending && !result && !error &&(
-                  <div className="text-center text-muted-foreground">
-                    El contenido aparecerá aquí.
+                  <div className="flex flex-col items-center gap-4 text-center text-muted-foreground">
+                    <div className="rounded-full border border-dashed p-4">
+                      <ImageIcon className="h-12 w-12" />
+                    </div>
+                    <p>El contenido aparecerá aquí una vez generado.</p>
                   </div>
                 )}
                 
@@ -267,15 +270,15 @@ export default function GeneratePage() {
                 )}
               </CardContent>
               {result && (
-                <CardFooter className="flex-col gap-2 sm:flex-row">
+                <CardFooter className="flex-col items-center justify-center gap-2 sm:flex-row">
                   {result.type === 'text' && (
-                    <Button variant="secondary" className="w-full" onClick={handleCopy}>
+                    <Button variant="secondary" onClick={handleCopy}>
                       <Clipboard className="mr-2 h-4 w-4" />
                       Copiar Texto
                     </Button>
                   )}
                   {(result.type === 'image' || result.type === 'video') && (
-                    <Button variant="secondary" className="w-full" onClick={handleDownload}>
+                    <Button variant="secondary" onClick={handleDownload}>
                       <Download className="mr-2 h-4 w-4" />
                       Descargar
                     </Button>
