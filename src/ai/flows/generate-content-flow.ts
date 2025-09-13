@@ -56,6 +56,11 @@ The output should be just the text for the post.
     }
 
     if (input.contentType === 'video') {
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        throw new Error('The GEMINI_API_KEY environment variable is not set. Please add it to your .env file.');
+      }
+
       let { operation } = await ai.generate({
         model: googleAI.model('veo-2.0-generate-001'),
         prompt: `Generate a video for a social media post about: ${input.topic}. Additional details: ${input.details}`,
@@ -86,10 +91,6 @@ The output should be just the text for the post.
       }
       
       const media = video.media;
-      const apiKey = process.env.GEMINI_API_KEY;
-      if (!apiKey) {
-        throw new Error('GEMINI_API_KEY environment variable not set.');
-      }
 
       const fetch = (await import('node-fetch')).default;
       // Add API key before fetching the video.
