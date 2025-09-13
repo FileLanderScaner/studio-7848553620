@@ -25,7 +25,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -34,11 +33,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, PlayCircle, Share2, Sparkles } from 'lucide-react';
+import { Loader2, PlayCircle, Sparkles, Clipboard, Download } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AiSuggestions } from '@/components/ai-suggestions';
 import { generateContent, GenerateContentOutput } from '@/ai/flows/generate-content-flow';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
   topic: z.string().min(5, 'Por favor, introduce un tema de al menos 5 caracteres.'),
@@ -52,6 +52,7 @@ export default function GeneratePage() {
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<GenerateContentOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -61,7 +62,7 @@ export default function GeneratePage() {
       details: '',
     },
   });
-  
+
   const contentType = form.watch('contentType');
 
   function onSubmit(values: FormValues) {
@@ -91,6 +92,32 @@ export default function GeneratePage() {
       }
     });
   }
+
+  const handleCopy = () => {
+    if (result?.type === 'text' && result.data) {
+      navigator.clipboard.writeText(result.data);
+      toast({
+        title: 'Copiado',
+        description: 'El texto ha sido copiado al portapapeles.',
+      });
+    }
+  };
+
+  const handleDownload = () => {
+    if ((result?.type === 'image' || result?.type === 'video') && result.data) {
+      const link = document.createElement('a');
+      link.href = result.data;
+      const fileName = result.type === 'image' ? 'imagen-generada.jpg' : 'video-generado.mp4';
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+       toast({
+        title: 'Descargando',
+        description: `Tu ${result.type === 'image' ? 'imagen' : 'video'} ha comenzado a descargarse.`,
+      });
+    }
+  };
 
   return (
     <div className="container mx-auto px-0">
@@ -240,11 +267,19 @@ export default function GeneratePage() {
                 )}
               </CardContent>
               {result && (
-                <CardFooter>
-                  <Button variant="secondary" className="w-full">
-                    <Share2 className="mr-2 h-4 w-4" />
-                    Publicar o Programar
-                  </Button>
+                <CardFooter className="flex-col gap-2 sm:flex-row">
+                  {result.type === 'text' && (
+                    <Button variant="secondary" className="w-full" onClick={handleCopy}>
+                      <Clipboard className="mr-2 h-4 w-4" />
+                      Copiar Texto
+                    </Button>
+                  )}
+                  {(result.type === 'image' || result.type === 'video') && (
+                    <Button variant="secondary" className="w-full" onClick={handleDownload}>
+                      <Download className="mr-2 h-4 w-4" />
+                      Descargar
+                    </Button>
+                  )}
                 </CardFooter>
               )}
             </Card>
