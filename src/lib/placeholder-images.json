@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "dashboard-hero",
+      "description": "Abstract purple and blue shapes",
+      "imageUrl": "https://picsum.photos/seed/dashboard/1200/400",
+      "imageHint": "abstract purple"
+    },
+    {
+      "id": "generated-post-1",
+      "description": "A vibrant cityscape at night",
+      "imageUrl": "https://picsum.photos/seed/genpost1/600/400",
+      "imageHint": "city night"
+    },
+    {
+      "id": "user-avatar",
+      "description": "User avatar placeholder",
+      "imageUrl": "https://picsum.photos/seed/user/100/100",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "video-placeholder",
+      "description": "Video placeholder thumbnail",
+      "imageUrl": "https://picsum.photos/seed/video/600/400",
+      "imageHint": "abstract video"
+    }
+  ]
 }
