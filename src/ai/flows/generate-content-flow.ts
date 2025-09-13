@@ -49,7 +49,7 @@ The output should be just the text for the post.
 
     if (input.contentType === 'image') {
         const { media } = await ai.generate({
-            model: googleAI.model('gemini-pro-vision'),
+            model: 'googleai/imagen-4.0-fast-generate-001',
             prompt: `Generate an image for a social media post about: ${input.topic}. Additional details: ${input.details}`,
         });
         return { type: 'image', data: media.url! };
