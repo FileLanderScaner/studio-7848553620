@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { PageHeader } from '@/components/page-header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -9,15 +12,28 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Clock, MessageSquare, PlusCircle, ThumbsUp } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 
-const scheduledPosts = [
+const initialScheduledPosts = [
   {
     id: 1,
     title: '5 tips para crecer en Instagram',
     type: 'Imagen',
-    date: '2024-08-15T10:00:00',
+    date: new Date('2024-08-15T10:00:00'),
     platform: 'Instagram',
     image: 'https://picsum.photos/seed/insta1/200/200',
     imageHint: 'social media flatlay',
@@ -26,7 +42,7 @@ const scheduledPosts = [
     id: 2,
     title: 'Análisis del nuevo iPhone',
     type: 'Video',
-    date: '2024-08-15T18:30:00',
+    date: new Date('2024-08-15T18:30:00'),
     platform: 'YouTube',
     image: 'https://picsum.photos/seed/yt1/200/200',
     imageHint: 'tech gadget',
@@ -35,7 +51,7 @@ const scheduledPosts = [
     id: 3,
     title: 'Cómo la IA está cambiando el marketing',
     type: 'Texto',
-    date: '2024-08-16T09:00:00',
+    date: new Date('2024-08-16T09:00:00'),
     platform: 'LinkedIn',
     image: 'https://picsum.photos/seed/li1/200/200',
     imageHint: 'business meeting',
@@ -50,6 +66,33 @@ const optimalTimes = [
 ];
 
 export default function SchedulePage() {
+  const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newPostTitle, setNewPostTitle] = useState('');
+  const [newPostDate, setNewPostDate] = useState<Date | undefined>(new Date());
+  const [newPostTime, setNewPostTime] = useState('10:00');
+
+  const handleSchedulePost = () => {
+    if (newPostTitle && newPostDate) {
+      const [hours, minutes] = newPostTime.split(':').map(Number);
+      const newDate = new Date(newPostDate);
+      newDate.setHours(hours, minutes);
+
+      const newPost = {
+        id: scheduledPosts.length + 1,
+        title: newPostTitle,
+        type: 'Texto',
+        date: newDate,
+        platform: 'Twitter',
+        image: `https://picsum.photos/seed/post${scheduledPosts.length + 1}/200/200`,
+        imageHint: 'abstract text',
+      };
+      setScheduledPosts([...scheduledPosts].sort((a,b) => a.date.getTime() - b.date.getTime()));
+      setIsModalOpen(false);
+      setNewPostTitle('');
+    }
+  };
+
   return (
     <div className="container mx-auto px-0">
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -58,10 +101,59 @@ export default function SchedulePage() {
           description="Organiza y programa tus publicaciones fácilmente."
           className="mb-0"
         />
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Nueva Publicación
-        </Button>
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <DialogTrigger asChild>
+            <Button>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Nueva Publicación
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Programar Nueva Publicación</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="title" className="text-right">
+                  Título
+                </Label>
+                <Input
+                  id="title"
+                  value={newPostTitle}
+                  onChange={(e) => setNewPostTitle(e.target.value)}
+                  className="col-span-3"
+                  placeholder="Ej: Mi nuevo post increíble"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="date" className="text-right">
+                  Fecha
+                </Label>
+                <div className="col-span-3">
+                   <Calendar mode="single" selected={newPostDate} onSelect={setNewPostDate} />
+                </div>
+              </div>
+               <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="time" className="text-right">
+                  Hora
+                </Label>
+                <Input
+                  id="time"
+                  type="time"
+                  value={newPostTime}
+                  onChange={(e) => setNewPostTime(e.target.value)}
+                  className="col-span-3"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Cancelar</Button>
+              </DialogClose>
+              <Button onClick={handleSchedulePost}>Programar</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3">
@@ -70,7 +162,8 @@ export default function SchedulePage() {
             <CardContent className="p-2 md:p-6">
               <Calendar
                 mode="single"
-                selected={new Date()}
+                selected={newPostDate}
+                onSelect={setNewPostDate}
                 className="w-full rounded-md"
               />
             </CardContent>
@@ -97,11 +190,7 @@ export default function SchedulePage() {
                     <div className="flex-1">
                       <p className="font-semibold">{post.title}</p>
                       <p className="text-sm text-muted-foreground">
-                        {new Date(post.date).toLocaleDateString('es-ES', {
-                          weekday: 'long',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
+                        {format(post.date, "EEEE, h:mm a", { locale: es })}
                       </p>
                       <Badge variant="outline">{post.platform}</Badge>
                     </div>
