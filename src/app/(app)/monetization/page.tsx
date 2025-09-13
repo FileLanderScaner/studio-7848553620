@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { PageHeader } from '@/components/page-header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -10,9 +13,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Check, Lock } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
-const plans = [
+const initialPlans = [
   {
+    id: 'free',
     name: 'Gratis',
     price: '$0',
     description: 'Para empezar a explorar el poder de la IA.',
@@ -22,9 +27,9 @@ const plans = [
       'Análisis básico',
       'Programación de hasta 5 posts',
     ],
-    isCurrent: true,
   },
   {
+    id: 'pro',
     name: 'Pro',
     price: '$19',
     description: 'Para creadores de contenido y freelancers.',
@@ -39,6 +44,7 @@ const plans = [
     isPopular: true,
   },
   {
+    id: 'business',
     name: 'Business',
     price: '$49',
     description: 'Para equipos y agencias.',
@@ -64,6 +70,19 @@ const premiumContent = [
 ];
 
 export default function MonetizationPage() {
+  const [currentPlanId, setCurrentPlanId] = useState('free');
+  const { toast } = useToast();
+
+  const handleSubscribe = (planId: string) => {
+    setCurrentPlanId(planId);
+    toast({
+      title: '¡Suscripción Exitosa!',
+      description: 'Has actualizado tu plan a Pro.',
+    });
+  };
+
+  const isPro = currentPlanId === 'pro' || currentPlanId === 'business';
+
   return (
     <div className="container mx-auto px-0">
       <PageHeader
@@ -72,7 +91,7 @@ export default function MonetizationPage() {
       />
 
       <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-        {plans.map((plan) => (
+        {initialPlans.map((plan) => (
           <Card
             key={plan.name}
             className={`flex flex-col ${plan.isPopular ? 'border-2 border-primary shadow-lg' : ''}`}
@@ -103,10 +122,11 @@ export default function MonetizationPage() {
             <CardFooter>
               <Button
                 className="w-full"
-                variant={plan.isCurrent ? 'outline' : 'default'}
-                disabled={plan.isCurrent}
+                variant={currentPlanId === plan.id ? 'outline' : 'default'}
+                disabled={currentPlanId === plan.id || plan.id === 'business'}
+                onClick={() => handleSubscribe(plan.id)}
               >
-                {plan.isCurrent ? 'Plan Actual' : 'Suscribirse'}
+                {currentPlanId === plan.id ? 'Plan Actual' : 'Suscribirse'}
               </Button>
             </CardFooter>
           </Card>
@@ -128,18 +148,20 @@ export default function MonetizationPage() {
                 <CardDescription>{item.description}</CardDescription>
               </CardHeader>
               <CardFooter>
-                <Button variant="secondary" disabled>
+                <Button variant="secondary" disabled={isPro} onClick={() => handleSubscribe('pro')}>
                   <Lock className="mr-2 h-4 w-4" />
-                  Desbloquear con Pro
+                  {isPro ? 'Desbloqueado' : 'Desbloquear con Pro'}
                 </Button>
               </CardFooter>
-              <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center">
-                 <div className="text-center p-4">
-                    <Lock className="mx-auto h-12 w-12 text-primary" />
-                    <p className="mt-2 font-semibold">Contenido Bloqueado</p>
-                    <p className="text-sm text-muted-foreground">Actualiza a Pro para acceder.</p>
+              {!isPro && (
+                 <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center">
+                    <div className="text-center p-4">
+                       <Lock className="mx-auto h-12 w-12 text-primary" />
+                       <p className="mt-2 font-semibold">Contenido Bloqueado</p>
+                       <p className="text-sm text-muted-foreground">Actualiza a Pro para acceder.</p>
+                    </div>
                  </div>
-              </div>
+              )}
             </Card>
           ))}
         </div>
