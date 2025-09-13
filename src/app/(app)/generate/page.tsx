@@ -69,24 +69,14 @@ export default function GeneratePage() {
     startTransition(async () => {
       setError(null);
       setResult(null);
-
-      if (values.contentType !== 'text') {
-        setTimeout(() => {
-          let data = 'https://picsum.photos/seed/genpost1/600/400';
-          if (values.contentType === 'video') {
-            data = 'https://picsum.photos/seed/video/600/400';
-          }
-          setResult({ type: values.contentType, data });
-        }, 2000);
-        return;
-      }
       
       try {
         const res = await generateContent({
           topic: values.topic,
+          contentType: values.contentType,
           details: values.details || '',
         });
-        setResult({ type: 'text', data: res.generatedText });
+        setResult(res);
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Ocurrió un error desconocido.');
       }
@@ -107,7 +97,7 @@ export default function GeneratePage() {
     if ((result?.type === 'image' || result?.type === 'video') && result.data) {
       const link = document.createElement('a');
       link.href = result.data;
-      const fileName = result.type === 'image' ? 'imagen-generada.jpg' : 'video-generado.mp4';
+      const fileName = result.type === 'image' ? 'imagen-generada.png' : 'video-generado.mp4';
       link.download = fileName;
       document.body.appendChild(link);
       link.click();
@@ -239,7 +229,7 @@ export default function GeneratePage() {
                 {result && (
                   <div className="w-full">
                     {result.type === 'text' && (
-                      <p className="text-sm whitespace-pre-wrap">{result.data}</p>
+                      <p className="whitespace-pre-wrap text-sm">{result.data}</p>
                     )}
                     {result.type === 'image' && (
                       <Image
@@ -270,7 +260,7 @@ export default function GeneratePage() {
                 )}
               </CardContent>
               {result && (
-                <CardFooter className="flex-col items-center justify-center gap-2 sm:flex-row">
+                <CardFooter className="flex-col items-center justify-center gap-2 pt-6 sm:flex-row">
                   {result.type === 'text' && (
                     <Button variant="secondary" onClick={handleCopy}>
                       <Clipboard className="mr-2 h-4 w-4" />

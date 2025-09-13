@@ -12,42 +12,49 @@ import { z } from 'genkit';
 
 const GenerateContentInputSchema = z.object({
   topic: z.string().describe('The topic or keyword for the content.'),
+  contentType: z.enum(['text', 'image', 'video']),
   details: z.string().describe('Additional details like tone, target audience, etc.'),
 });
 export type GenerateContentInput = z.infer<typeof GenerateContentInputSchema>;
 
-const GenerateContentOutputSchema = z.object({
-  generatedText: z.string().describe('The generated text content.'),
-});
 export type GenerateContentOutput = {
     type: 'text' | 'image' | 'video',
     data: string
 };
 
 
-export async function generateContent(input: GenerateContentInput): Promise<{ generatedText: string }> {
+export async function generateContent(input: GenerateContentInput): Promise<GenerateContentOutput> {
   return generateContentFlow(input);
 }
-
-const prompt = ai.definePrompt({
-  name: 'generateContentPrompt',
-  input: { schema: GenerateContentInputSchema },
-  output: { schema: GenerateContentOutputSchema },
-  prompt: `You are an expert content creator for social media.
-Generate a post about the following topic: {{{topic}}}.
-Take into account the following details: {{{details}}}.
-The output should be just the text for the post.
-`,
-});
 
 const generateContentFlow = ai.defineFlow(
   {
     name: 'generateContentFlow',
     inputSchema: GenerateContentInputSchema,
-    outputSchema: GenerateContentOutputSchema,
+    outputSchema: z.any(),
   },
   async (input) => {
-    const { output } = await prompt(input);
-    return output!;
+
+    if (input.contentType === 'text') {
+        const { output } = await ai.generate({
+            prompt: `You are an expert content creator for social media.
+Generate a post about the following topic: ${input.topic}.
+Take into account the following details: ${input.details}.
+The output should be just the text for the post.
+`,
+        });
+        return { type: 'text', data: output!.text! };
+    }
+
+    if (input.contentType === 'image') {
+        const { media } = await ai.generate({
+            model: 'googleai/imagen-4.0-fast-generate-001',
+            prompt: `Generate an image for a social media post about: ${input.topic}. Additional details: ${input.details}`,
+        });
+        return { type: 'image', data: media.url! };
+    }
+
+    // Placeholder for video
+    return { type: 'video', data: 'https://picsum.photos/seed/video/600/400' };
   }
 );
