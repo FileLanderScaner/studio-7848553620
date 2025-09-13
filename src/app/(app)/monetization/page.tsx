@@ -47,7 +47,7 @@ const initialPlans = [
     id: 'business',
     name: 'Business',
     price: '$49',
-    description: 'Para equipos y agencias.',
+    description: 'Para equipos y agencias que buscan escalar.',
     features: [
       'Todo en Pro',
       'Colaboración en equipo (hasta 5 usuarios)',
@@ -74,6 +74,14 @@ export default function MonetizationPage() {
   const { toast } = useToast();
 
   const handleSubscribe = (planId: string) => {
+    if (planId === 'business') {
+      window.location.href = "mailto:contacto@contenidomaestro.com?subject=Consulta sobre el plan Business";
+      toast({
+        title: 'Contactando a Ventas',
+        description: 'Se abrirá tu cliente de correo para contactar con nuestro equipo.',
+      });
+      return;
+    }
     setCurrentPlanId(planId);
     toast({
       title: '¡Suscripción Exitosa!',
@@ -123,10 +131,10 @@ export default function MonetizationPage() {
               <Button
                 className="w-full"
                 variant={currentPlanId === plan.id ? 'outline' : 'default'}
-                disabled={currentPlanId === plan.id || plan.id === 'business'}
+                disabled={currentPlanId === plan.id}
                 onClick={() => handleSubscribe(plan.id)}
               >
-                {currentPlanId === plan.id ? 'Plan Actual' : 'Suscribirse'}
+                {plan.id === 'business' ? 'Contactar para Venta' : currentPlanId === plan.id ? 'Plan Actual' : 'Suscribirse'}
               </Button>
             </CardFooter>
           </Card>
