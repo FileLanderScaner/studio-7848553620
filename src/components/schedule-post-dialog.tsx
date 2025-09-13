@@ -87,7 +87,7 @@ export function SchedulePostDialog({
     onSchedulePost({
       title: newPost.title,
       type: newPost.imageUrl ? 'Imagen' : 'Texto',
-      date: newDate,
+      date: newDate.toISOString(),
       platform: newPost.platform,
       image: newPost.imageUrl || `https://picsum.photos/seed/post${Math.random()}/200/200`,
       imageHint: newPost.imageHint || 'abstract',

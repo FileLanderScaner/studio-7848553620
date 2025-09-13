@@ -2,7 +2,7 @@ export type ScheduledPost = {
     id: number;
     title: string;
     type: string;
-    date: Date;
+    date: string;
     platform: string;
     image: string;
     imageHint: string;
@@ -16,7 +16,7 @@ export const scheduledPosts: ScheduledPost[] = [
     id: 1,
     title: '5 tips para crecer en Instagram',
     type: 'Imagen',
-    date: new Date('2024-08-15T10:00:00'),
+    date: new Date('2024-08-15T10:00:00').toISOString(),
     platform: 'Instagram',
     image: 'https://picsum.photos/seed/insta1/200/200',
     imageHint: 'social media flatlay',
@@ -28,7 +28,7 @@ export const scheduledPosts: ScheduledPost[] = [
     id: 2,
     title: 'Análisis del nuevo iPhone',
     type: 'Video',
-    date: new Date('2024-08-15T18:30:00'),
+    date: new Date('2024-08-15T18:30:00').toISOString(),
     platform: 'YouTube',
     image: 'https://picsum.photos/seed/yt1/200/200',
     imageHint: 'tech gadget',
@@ -40,7 +40,7 @@ export const scheduledPosts: ScheduledPost[] = [
     id: 3,
     title: 'Cómo la IA está cambiando el marketing',
     type: 'Texto',
-    date: new Date('2024-08-16T09:00:00'),
+    date: new Date('2024-08-16T09:00:00').toISOString(),
     platform: 'LinkedIn',
     image: 'https://picsum.photos/seed/li1/200/200',
     imageHint: 'business meeting',
@@ -52,7 +52,7 @@ export const scheduledPosts: ScheduledPost[] = [
     id: 4,
     title: 'Receta de pastel de chocolate fácil',
     type: 'Imagen',
-    date: new Date('2024-08-17T12:00:00'),
+    date: new Date('2024-08-17T12:00:00').toISOString(),
     platform: 'Pinterest',
     image: 'https://picsum.photos/seed/pin1/200/200',
     imageHint: 'chocolate cake',
@@ -64,7 +64,7 @@ export const scheduledPosts: ScheduledPost[] = [
     id: 5,
     title: 'Resumen de noticias de la semana',
     type: 'Texto',
-    date: new Date('2024-08-18T08:00:00'),
+    date: new Date('2024-08-18T08:00:00').toISOString(),
     platform: 'Twitter',
     image: 'https://picsum.photos/seed/tw1/200/200',
     imageHint: 'news newspaper',
@@ -76,7 +76,7 @@ export const scheduledPosts: ScheduledPost[] = [
     id: 6,
     title: 'Los mejores destinos para viajar en 2025',
     type: 'Video',
-    date: new Date('2024-08-19T20:00:00'),
+    date: new Date('2024-08-19T20:00:00').toISOString(),
     platform: 'YouTube',
     image: 'https://picsum.photos/seed/yt2/200/200',
     imageHint: 'travel map',
@@ -88,7 +88,7 @@ export const scheduledPosts: ScheduledPost[] = [
     id: 7,
     title: 'Mi setup de productividad para 2024',
     type: 'Imagen',
-    date: new Date('2024-08-20T11:00:00'),
+    date: new Date('2024-08-20T11:00:00').toISOString(),
     platform: 'Instagram',
     image: 'https://picsum.photos/seed/insta2/200/200',
     imageHint: 'desk setup',

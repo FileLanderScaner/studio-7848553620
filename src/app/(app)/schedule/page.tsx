@@ -19,6 +19,7 @@ import Image from 'next/image';
 import { ScheduledPost } from '@/lib/scheduled-posts';
 import { useToast } from '@/hooks/use-toast';
 import { SchedulePostDialog } from '@/components/schedule-post-dialog';
+import { useScheduledPosts } from '@/contexts/ScheduledPostsContext';
 
 const optimalTimes = [
   { platform: 'Instagram', time: '9:00 AM - 11:00 AM' },
@@ -27,12 +28,9 @@ const optimalTimes = [
   { platform: 'LinkedIn', time: '10:00 AM - 12:00 PM' },
 ];
 
-type SchedulePageProps = {
-    scheduledPosts: ScheduledPost[];
-    handleSchedulePost: (post: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => void;
-};
 
-export default function SchedulePage({ scheduledPosts = [], handleSchedulePost }: SchedulePageProps) {
+export default function SchedulePage() {
+  const { scheduledPosts, handleSchedulePost } = useScheduledPosts();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
@@ -46,7 +44,7 @@ export default function SchedulePage({ scheduledPosts = [], handleSchedulePost }
       });
   };
   
-  const scheduledDays = scheduledPosts.map(post => post.date);
+  const scheduledDays = scheduledPosts.map(post => new Date(post.date));
 
   return (
     <div className="container mx-auto px-0">
@@ -93,7 +91,7 @@ export default function SchedulePage({ scheduledPosts = [], handleSchedulePost }
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {scheduledPosts.filter(post => post.date >= new Date()).map((post) => (
+                {scheduledPosts.filter(post => new Date(post.date) >= new Date()).map((post) => (
                   <div key={post.id} className="flex items-start gap-4">
                     <Image
                       src={post.image}
@@ -106,7 +104,7 @@ export default function SchedulePage({ scheduledPosts = [], handleSchedulePost }
                     <div className="flex-1">
                       <p className="font-semibold">{post.title}</p>
                       <p className="text-sm text-muted-foreground">
-                        {format(post.date, "EEEE, h:mm a", { locale: es })}
+                        {format(new Date(post.date), "EEEE, h:mm a", { locale: es })}
                       </p>
                       <Badge variant="outline">{post.platform}</Badge>
                     </div>

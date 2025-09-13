@@ -1,3 +1,5 @@
+'use client';
+
 import { EngagementCharts } from '@/components/engagement-charts';
 import { PageHeader } from '@/components/page-header';
 import {
@@ -6,14 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { useScheduledPosts } from '@/contexts/ScheduledPostsContext';
 import { MessageSquare, Share2, ThumbsUp } from 'lucide-react';
-import { ScheduledPost } from '@/lib/scheduled-posts';
 
-type AnalyticsPageProps = {
-  scheduledPosts: ScheduledPost[];
-};
 
-export default function AnalyticsPage({ scheduledPosts = [] }: AnalyticsPageProps) {
+export default function AnalyticsPage() {
+  const { scheduledPosts } = useScheduledPosts();
 
   const likes = scheduledPosts.reduce((acc, post) => acc + (post.likes || 0), 0);
   const comments = scheduledPosts.reduce((acc, post) => acc + (post.comments || 0), 0);

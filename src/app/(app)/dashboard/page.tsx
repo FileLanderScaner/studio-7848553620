@@ -1,3 +1,5 @@
+'use client';
+
 import { PageHeader } from '@/components/page-header';
 import {
   Card,
@@ -17,11 +19,12 @@ import {
   ThumbsUp,
 } from 'lucide-react';
 import Link from 'next/link';
-import { ScheduledPost } from '@/lib/scheduled-posts';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { useScheduledPosts } from '@/contexts/ScheduledPostsContext';
+
 
 const features = [
   {
@@ -50,11 +53,8 @@ const features = [
   },
 ];
 
-type DashboardPageProps = {
-  scheduledPosts: ScheduledPost[];
-};
-
-export default function DashboardPage({ scheduledPosts = [] }: DashboardPageProps) {
+export default function DashboardPage() {
+  const { scheduledPosts } = useScheduledPosts();
 
   const likes = scheduledPosts.reduce((acc, post) => acc + (post.likes || 0), 0);
   const comments = scheduledPosts.reduce(
@@ -82,8 +82,8 @@ export default function DashboardPage({ scheduledPosts = [] }: DashboardPageProp
   ];
 
   const upcomingPost = scheduledPosts
-    .filter((post) => post.date >= new Date())
-    .sort((a, b) => a.date.getTime() - b.date.getTime())[0];
+    .filter((post) => new Date(post.date) >= new Date())
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
     
   return (
     <div className="container mx-auto px-0">
@@ -147,7 +147,7 @@ export default function DashboardPage({ scheduledPosts = [] }: DashboardPageProp
                   <div className="flex-1">
                     <p className="font-semibold">{upcomingPost.title}</p>
                     <p className="text-sm text-muted-foreground">
-                      {format(upcomingPost.date, "EEEE, h:mm a", {
+                      {format(new Date(upcomingPost.date), "EEEE, h:mm a", {
                         locale: es,
                       })}
                     </p>

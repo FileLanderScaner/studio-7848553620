@@ -42,6 +42,7 @@ import { useToast } from '@/hooks/use-toast';
 import { WeeklyStrategy } from '@/components/weekly-strategy';
 import { SchedulePostDialog } from '@/components/schedule-post-dialog';
 import type { ScheduledPost } from '@/lib/scheduled-posts';
+import { useScheduledPosts } from '@/contexts/ScheduledPostsContext';
 
 
 const formSchema = z.object({
@@ -52,17 +53,15 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-type GeneratePageProps = {
-  handleSchedulePost: (post: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => void;
-};
 
-export default function GeneratePage({ handleSchedulePost }: GeneratePageProps) {
+export default function GeneratePage() {
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<GenerateContentOutput | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isScheduleModalOpen, setScheduleModalOpen] = useState(false);
 
   const { toast } = useToast();
+  const { handleSchedulePost } = useScheduledPosts();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),

@@ -49,8 +49,8 @@ const chartConfig: ChartConfig = {
 };
 
 export function EngagementCharts({ posts }: EngagementChartsProps) {
-    const engagementData = posts.sort((a,b) => a.date.getTime() - b.date.getTime()).map((post) => ({
-      date: format(post.date, 'dd/MM'),
+    const engagementData = posts.sort((a,b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map((post) => ({
+      date: format(new Date(post.date), 'dd/MM'),
       likes: post.likes || 0,
       comments: post.comments || 0,
       shares: post.shares || 0,
