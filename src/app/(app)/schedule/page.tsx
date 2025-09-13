@@ -38,23 +38,12 @@ export default function SchedulePage({ scheduledPosts = [], handleSchedulePost }
   const { toast } = useToast();
 
   const onSchedulePost = (newPost: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => {
-    if (selectedDate) {
-      const [hours, minutes] = (newPost.date.toString()).split(':').map(Number);
-      const finalDate = new Date(selectedDate);
-      finalDate.setHours(hours, minutes);
-
-      const postWithDate = {
-        ...newPost,
-        date: finalDate,
-      };
-
-      handleSchedulePost(postWithDate);
+      handleSchedulePost(newPost);
       setIsModalOpen(false);
       toast({
         title: '¡Publicación programada!',
         description: 'Tu contenido ha sido añadido al calendario.',
       });
-    }
   };
   
   const scheduledDays = scheduledPosts.map(post => post.date);

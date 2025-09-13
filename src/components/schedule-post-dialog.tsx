@@ -59,17 +59,19 @@ export function SchedulePostDialog({
   const [newPost, setNewPost] = useState<NewPostState>(initialNewPostState);
 
   useEffect(() => {
-    const defaultTime = new Date();
-    defaultTime.setHours(10, 0, 0, 0);
+    if (isOpen) {
+        const defaultTime = new Date();
+        defaultTime.setHours(10, 0, 0, 0);
 
-    setNewPost({
-      title: initialData?.title || '',
-      time: initialData?.time || format(defaultTime, 'HH:mm'),
-      platform: initialData?.platform || 'Instagram',
-      imageUrl: initialData?.imageUrl || '',
-      imageHint: initialData?.imageHint || 'abstract',
-      type: initialData?.type || 'text',
-    });
+        setNewPost({
+            title: initialData?.title || '',
+            time: initialData?.time || format(defaultTime, 'HH:mm'),
+            platform: initialData?.platform || 'Instagram',
+            imageUrl: initialData?.imageUrl || '',
+            imageHint: initialData?.imageHint || 'abstract',
+            type: initialData?.type || 'text',
+        });
+    }
   }, [initialData, isOpen]);
   
   const handleInputChange = (field: keyof NewPostState, value: string) => {

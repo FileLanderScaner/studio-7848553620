@@ -314,7 +314,8 @@ export default function GeneratePage({ handleSchedulePost }: GeneratePageProps) 
             initialData={{
                 title: form.getValues('topic'),
                 type: result.type,
-                imageUrl: result.type === 'image' ? result.data : '',
+                imageUrl: result.type === 'image' ? result.data : result.type === 'video' ? '' : '',
+                imageHint: result.type === 'image' ? form.getValues('topic') : 'abstract'
             }}
         />
       )}
