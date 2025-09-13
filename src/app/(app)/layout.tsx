@@ -12,7 +12,9 @@ export default function AppLayout({
       <AppSidebar />
       <SidebarInset>
         <Header />
-        <main className="flex-1 p-4 lg:p-6">{children}</main>
+        <main className="flex-1 p-4 lg:p-6 animate-in fade-in duration-500">
+          {children}
+        </main>
       </SidebarInset>
     </>
   );
