@@ -33,7 +33,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, PlayCircle, Sparkles, Clipboard, Download, Image as ImageIcon } from 'lucide-react';
+import { Loader2, Sparkles, Clipboard, Download, Image as ImageIcon } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AiSuggestions } from '@/components/ai-suggestions';
 import { generateContent, GenerateContentOutput } from '@/ai/flows/generate-content-flow';
