@@ -77,8 +77,12 @@ export default function GeneratePage() {
           details: values.details || '',
         });
         setResult(res);
-      } catch (e) {
-        setError(e instanceof Error ? e.message : 'Ocurrió un error desconocido.');
+      } catch (e: any) {
+        if (typeof e.message === 'string' && e.message.includes('429')) {
+          setError('Se ha excedido la cuota de la API. Por favor, inténtalo de nuevo más tarde.');
+        } else {
+          setError(e instanceof Error ? e.message : 'Ocurrió un error desconocido.');
+        }
       }
     });
   }
@@ -211,12 +215,12 @@ export default function GeneratePage() {
               <CardContent className="flex flex-1 items-center justify-center rounded-lg border-2 border-dashed bg-muted/50 p-4">
                 {isPending && <Loader2 className="h-10 w-10 animate-spin text-primary" />}
                 {!isPending && !result && !error &&(
-                  <div className="flex flex-col items-center gap-4 text-center text-muted-foreground">
-                    <div className="rounded-full border border-dashed p-4">
-                      <ImageIcon className="h-12 w-12" />
-                    </div>
-                    <p>El contenido aparecerá aquí una vez generado.</p>
-                  </div>
+                   <div className="flex flex-col items-center gap-4 text-center text-muted-foreground">
+                     <div className="rounded-full border border-dashed p-4">
+                       <ImageIcon className="h-12 w-12" />
+                     </div>
+                     <p>El contenido aparecerá aquí una vez generado.</p>
+                   </div>
                 )}
                 
                 {error && (
