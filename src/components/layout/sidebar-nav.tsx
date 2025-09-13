@@ -6,6 +6,7 @@ import {
   Calendar,
   BarChart,
   CreditCard,
+  Plug,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -20,6 +21,7 @@ const navItems = [
   { href: '/generate', icon: Sparkles, label: 'Generar' },
   { href: '/schedule', icon: Calendar, label: 'Programar' },
   { href: '/analytics', icon: BarChart, label: 'Analizar' },
+  { href: '/connections', icon: Plug, label: 'Conexiones' },
   { href: '/monetization', icon: CreditCard, label: 'Monetizar' },
 ];
 
