@@ -67,15 +67,15 @@ const optimalTimes = [
 
 export default function SchedulePage() {
   const [scheduledPosts, setScheduledPosts] = useState(initialScheduledPosts);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newPostTitle, setNewPostTitle] = useState('');
-  const [newPostDate, setNewPostDate] = useState<Date | undefined>(new Date());
   const [newPostTime, setNewPostTime] = useState('10:00');
 
   const handleSchedulePost = () => {
-    if (newPostTitle && newPostDate) {
+    if (newPostTitle && selectedDate) {
       const [hours, minutes] = newPostTime.split(':').map(Number);
-      const newDate = new Date(newPostDate);
+      const newDate = new Date(selectedDate);
       newDate.setHours(hours, minutes);
 
       const newPost = {
@@ -90,8 +90,11 @@ export default function SchedulePage() {
       setScheduledPosts(prevPosts => [...prevPosts, newPost].sort((a,b) => a.date.getTime() - b.date.getTime()));
       setIsModalOpen(false);
       setNewPostTitle('');
+      setNewPostTime('10:00');
     }
   };
+  
+  const scheduledDays = scheduledPosts.map(post => post.date);
 
   return (
     <div className="container mx-auto px-0">
@@ -129,8 +132,8 @@ export default function SchedulePage() {
                 <Label htmlFor="date" className="text-right">
                   Fecha
                 </Label>
-                <div className="col-span-3">
-                   <Calendar mode="single" selected={newPostDate} onSelect={setNewPostDate} />
+                <div className="col-span-3 text-sm">
+                   {selectedDate ? format(selectedDate, 'PPP', { locale: es }) : 'Selecciona una fecha'}
                 </div>
               </div>
                <div className="grid grid-cols-4 items-center gap-4">
@@ -162,9 +165,13 @@ export default function SchedulePage() {
             <CardContent className="p-2 md:p-6">
               <Calendar
                 mode="single"
-                selected={newPostDate}
-                onSelect={setNewPostDate}
+                selected={selectedDate}
+                onSelect={setSelectedDate}
                 className="w-full rounded-md"
+                modifiers={{ scheduled: scheduledDays }}
+                modifiersClassNames={{
+                  scheduled: 'bg-primary/20 text-primary-foreground rounded-full',
+                }}
               />
             </CardContent>
           </Card>
