@@ -29,9 +29,13 @@ if (typeof window !== 'undefined') {
     self.FIREBASE_APPCHECK_DEBUG_TOKEN = appCheckDebugToken;
   }
   
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  if (!recaptchaSiteKey) {
+    console.warn('La variable de entorno NEXT_PUBLIC_RECAPTCHA_SITE_KEY no está configurada. App Check se ejecutará en modo de solo depuración.');
+  }
+
   initializeAppCheck(app, {
-    // TODO: Replace with your reCAPTCHA v3 site key
-    provider: new ReCaptchaV3Provider('6Ld-............-..........._....'),
+    provider: new ReCaptchaV3Provider(recaptchaSiteKey || '6Ld-............-..........._....'),
     isTokenAutoRefreshEnabled: true
   });
 }
