@@ -141,7 +141,8 @@ export default function LoginPage() {
   };
 
   // Muestra una pantalla de carga si el estado de autenticación aún no se ha resuelto.
-  if (authLoading) {
+  // o si el usuario ya está conectado y estamos esperando la redirección.
+  if (authLoading || user) {
      return (
       <div className="flex h-screen w-full items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -149,6 +150,7 @@ export default function LoginPage() {
       </div>
     );
   }
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">

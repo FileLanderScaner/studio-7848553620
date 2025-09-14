@@ -1,8 +1,15 @@
-I0914 08:40:17.734783   10030 load.go:31] Reloading schema and connectors...
-E0914 08:40:17.742240   10030 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service "studio". No service has a schema.
-E0914 08:40:17.743068   10030 load.go:73] Could not load sources: 
+I0914 09:08:00.842641   12656 load.go:31] Reloading schema and connectors...
+E0914 09:08:00.850907   12656 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service "motivateme-vwbmd". No service has a schema.
+E0914 09:08:00.851018   12656 load.go:73] Could not load sources: 
 Errors: schema/schema.gql:9:14: Undefined directive column.
-I0914 08:40:17.745223   10030 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+I0914 09:08:00.860695   12656 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
 Generated sources: prelude.gql [73251B] 
-I0914 08:40:17.745318   10030 load.go:74] Finished reloading
-I0914 08:40:17.793966   10030 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+I0914 09:08:00.860748   12656 load.go:74] Finished reloading
+I0914 09:08:00.880771   12656 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+I0914 09:21:30.865319   12656 load.go:31] Reloading schema and connectors...
+E0914 09:21:30.884472   12656 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service "motivateme-vwbmd". No service has a schema.
+E0914 09:21:30.884550   12656 load.go:73] Could not load sources: 
+Errors: schema/schema.gql:9:14: Undefined directive column.
+I0914 09:21:30.885176   12656 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] 
+I0914 09:21:30.885218   12656 load.go:74] Finished reloading

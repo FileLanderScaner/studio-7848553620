@@ -7,18 +7,18 @@
 
 type Movie @table(name: "movies") {
   id: UUID! @column(primaryKey: true, default: "gen_random_uuid()")
-  title: String!
-  imageUrl: String!
-  genre: String
+  title: String! @column
+  imageUrl: String! @column
+  genre: String @column
   metadata: MovieMetadata @oneToOne(from: "id", to: "id")
   reviews: [Review!] @oneToMany(from: "id", to: "movieId")
 }
 
 type MovieMetadata @table(name: "movie_metadata") {
   id: UUID! @column(primaryKey: true)
-  rating: Int
-  releaseYear: Int
-  description: String
+  rating: Int @column
+  releaseYear: Int @column
+  description: String @column
 }
 
 type User @table(name: "users") @auth(
@@ -28,7 +28,7 @@ type User @table(name: "users") @auth(
   ]
 ) {
   id: String! @column(primaryKey: true, default: "current_user_id()")
-  username: String!
+  username: String! @column
   reviews: [Review!] @oneToMany(from: "id", to: "userId")
 }
 
@@ -40,9 +40,9 @@ type Review @table(name: "reviews") @auth(
 ) {
   userId: String! @column(primaryKey: true, default: "current_user_id()")
   movieId: UUID! @column(primaryKey: true)
-  reviewDate: Date!
-  rating: Int
-  reviewText: String
+  reviewDate: Date! @column
+  rating: Int @column
+  reviewText: String @column
   movie: Movie! @manyToOne(from: "movieId", to: "id")
   user: User! @manyToOne(from: "userId", to: "id")
 }
