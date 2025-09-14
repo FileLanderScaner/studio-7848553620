@@ -48,19 +48,25 @@ export function ScheduledPostsProvider({ children }: { children: ReactNode }) {
     }
 
     try {
+      setLoading(true);
       const postsCollectionRef = collection(db, 'users', user.uid, 'posts');
       const q = query(postsCollectionRef, orderBy('date', 'asc'));
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
         // If the user has no posts, seed their account with initial data
-        const seedingPromises = initialScheduledPosts.map((post) =>
-          addDoc(postsCollectionRef, {
+        const seedingPromises = initialScheduledPosts.map((post) => {
+          const postWithRandomStats = {
             ...post,
             date: Timestamp.fromDate(new Date(post.date)),
-          })
-        );
+            likes: Math.floor(Math.random() * 250),
+            comments: Math.floor(Math.random() * 60),
+            shares: Math.floor(Math.random() * 30),
+          }
+          return addDoc(postsCollectionRef, postWithRandomStats);
+        });
         await Promise.all(seedingPromises);
+        
         // Re-fetch after seeding
         const seededSnapshot = await getDocs(q);
         const postsList = seededSnapshot.docs.map((doc) => {

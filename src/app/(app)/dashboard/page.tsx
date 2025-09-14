@@ -139,12 +139,12 @@ export default function DashboardPage() {
           ))}
         </div>
         <div className="lg:col-span-1">
-          {upcomingPost && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Próxima Publicación</CardTitle>
-              </CardHeader>
-              <CardContent>
+          <Card>
+            <CardHeader>
+              <CardTitle>Próxima Publicación</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {upcomingPost ? (
                 <div className="flex items-start gap-4">
                   <Image
                     src={upcomingPost.image}
@@ -164,9 +164,11 @@ export default function DashboardPage() {
                     <Badge variant="outline">{upcomingPost.platform}</Badge>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              ) : (
+                <p className="text-sm text-muted-foreground">No hay publicaciones programadas.</p>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
