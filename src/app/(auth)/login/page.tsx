@@ -76,7 +76,7 @@ export default function LoginPage() {
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     setError(null);
-    form.reset(); // Reinicia los valores y el estado del formulario
+    form.reset();
   };
 
   const getFirebaseErrorMessage = (errorCode: string) => {
