@@ -1,6 +1,7 @@
 'use server';
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { defineSecret } from 'firebase-functions/params';
+import { flow } from 'genkit';
 
 // This is a trick to make sure the secret is deployed.
 defineSecret('GOOGLE_GENAI_API_KEY');
@@ -14,7 +15,6 @@ import './flows/generate-strategy-flow';
 import { suggestImprovementsFlow } from './flows/ai-powered-content-suggestions';
 import { generateContentFlow } from './flows/generate-content-flow';
 import { generateWeeklyStrategyFlow } from './flows/generate-strategy-flow';
-import { flow } from 'genkit';
 
 // Helper function to wrap a Genkit flow in a Firebase Callable Function
 function asCallable<I, O>(f: (input: I) => Promise<O>) {

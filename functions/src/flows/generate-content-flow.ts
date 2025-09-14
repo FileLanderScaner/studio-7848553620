@@ -41,9 +41,9 @@ The output should be just the text for the post.
     }
 
     if (input.contentType === 'video') {
-      const apiKey = process.env.GEMINI_API_KEY;
+      const apiKey = process.env.GOOGLE_GENAI_API_KEY;
       if (!apiKey) {
-        throw new Error('The GEMINI_API_KEY environment variable is not set. Please add it to your .env file.');
+        throw new Error('The GOOGLE_GENAI_API_KEY environment variable is not set. Please add it to your .env file for local development and configure it as a secret for production.');
       }
 
       let { operation } = await ai.generate({

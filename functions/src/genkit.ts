@@ -6,7 +6,7 @@ export const ai = genkit({
   plugins: [
     firebase(),
     googleAI({
-        // Other Google AI plugin configuration
+        apiKey: process.env.GOOGLE_GENAI_API_KEY,
     }),
   ],
   logLevel: "debug",
