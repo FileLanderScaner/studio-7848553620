@@ -14,6 +14,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from 'firebase/auth';
 import { app } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
@@ -23,12 +25,14 @@ type AuthContextType = {
   loading: boolean;
   login: (email: string, pass: string) => Promise<any>;
   signup: (email: string, pass: string) => Promise<any>;
+  loginWithGoogle: () => Promise<any>;
   logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -51,6 +55,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signup = (email: string, pass: string) => {
     return createUserWithEmailAndPassword(auth, email, pass);
   };
+  
+  const loginWithGoogle = () => {
+    return signInWithPopup(auth, googleProvider);
+  };
 
   const logout = async () => {
     await signOut(auth);
@@ -62,6 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loading,
     login,
     signup,
+    loginWithGoogle,
     logout,
   };
 
