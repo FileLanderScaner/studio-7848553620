@@ -1,0 +1,86 @@
+query ListMovies {
+  movies {
+    id
+    title
+    imageUrl
+    genre
+    ...Movie_Key
+  }
+}
+query ListUsers {
+  users {
+    id
+    username
+    ...User_Key
+  }
+}
+query ListUserReviews {
+  user {
+    id
+    username
+    reviews {
+      movie {
+        id
+        title
+        ...Movie_Key
+      }
+      rating
+      reviewDate
+      reviewText
+    }
+    ...User_Key
+  }
+}
+
+query GetMovieById($id: UUID!) {
+  movie(id: $id) {
+    id
+    title
+    imageUrl
+    genre
+    metadata {
+      rating
+      releaseYear
+      description
+    }
+    reviews {
+      user {
+        id
+        username
+        ...User_Key
+      }
+      reviewText
+      reviewDate
+      rating
+    }
+    ...Movie_Key
+  }
+}
+
+query SearchMovie(
+  $titleInput: String
+  $genre: String
+) {
+  movies(
+    where: {
+      _and: [
+        {
+          title: {
+            _like: $titleInput
+          }
+        },
+        {
+          genre: {
+            _eq: $genre
+          }
+        }
+      ]
+    }
+  ) {
+    id
+    title
+    genre
+    imageUrl
+    ...Movie_Key
+  }
+}

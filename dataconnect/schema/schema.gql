@@ -1,0 +1,48 @@
+# https://firebase.google.com/docs/dataconnect/schema-language-and-resolvers#schema-language-support
+#
+# Some built-in types include: String, Int, Float, Boolean, ID, Json, and UUID.
+#
+# You can also use types that correspond to schema in other files with
+# `type MyType from "./my-other-file.gql"`
+
+type Movie @table(name: "movies") {
+  id: UUID! @column(primaryKey: true, default: "gen_random_uuid()")
+  title: String!
+  imageUrl: String!
+  genre: String
+  metadata: MovieMetadata @oneToOne(from: "id", to: "id")
+  reviews: [Review!] @oneToMany(from: "id", to: "movieId")
+}
+
+type MovieMetadata @table(name: "movie_metadata") {
+  id: UUID! @column(primaryKey: true)
+  rating: Int
+  releaseYear: Int
+  description: String
+}
+
+type User @table(name: "users") @auth(
+  ops: [
+    { op: "upsert", claims: { uid: "{id}" } },
+    { op: "get", claims: { uid: "{id}" } }
+  ]
+) {
+  id: String! @column(primaryKey: true, default: "current_user_id()")
+  username: String!
+  reviews: [Review!] @oneToMany(from: "id", to: "userId")
+}
+
+type Review @table(name: "reviews") @auth(
+  ops: [
+    { op: "upsert", claims: { uid: "{userId}" } },
+    { op: "delete", claims: { uid: "{userId}" } }
+  ]
+) {
+  userId: String! @column(primaryKey: true, default: "current_user_id()")
+  movieId: UUID! @column(primaryKey: true)
+  reviewDate: Date!
+  rating: Int
+  reviewText: String
+  movie: Movie! @manyToOne(from: "movieId", to: "id")
+  user: User! @manyToOne(from: "userId", to: "id")
+}

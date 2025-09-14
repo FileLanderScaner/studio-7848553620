@@ -1,0 +1,56 @@
+mutation CreateMovie(
+  $title: String!
+  $genre: String!
+  $imageUrl: String!
+) {
+  movie_insert(
+    data: {
+      title: $title,
+      genre: $genre,
+      imageUrl: $imageUrl
+    }
+  ) {
+    ...Movie_Key
+  }
+}
+
+mutation UpsertUser($username: String!) {
+  user_upsert(
+    data: {
+      username: $username
+    }
+  ) {
+    ...User_Key
+  }
+}
+
+mutation AddReview(
+  $movieId: UUID!
+  $rating: Int!
+  $reviewText: String!
+) {
+  review_upsert(
+    data: {
+      movieId: $movieId
+      rating: $rating
+      reviewText: $reviewText
+      reviewDate: "now"
+    }
+  ) {
+    ...Review_Key
+  }
+}
+
+mutation DeleteReview(
+  $movieId: UUID!
+) {
+  review_delete(
+    where: {
+      movieId: {
+        _eq: $movieId
+      }
+    }
+  ) {
+    ...Review_Key
+  }
+}
