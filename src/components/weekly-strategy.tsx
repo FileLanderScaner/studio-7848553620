@@ -4,7 +4,8 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '@/lib/firebase';
 
 import {
   GenerateWeeklyStrategyInput,
@@ -61,7 +62,6 @@ export function WeeklyStrategy() {
       setError(null);
       setResult(null);
       try {
-        const functions = getFunctions();
         const generateWeeklyStrategyFn = httpsCallable<GenerateWeeklyStrategyInput, GenerateWeeklyStrategyOutput>(functions, 'generateWeeklyStrategy');
         const res = await generateWeeklyStrategyFn(values);
         setResult(res.data);

@@ -5,7 +5,8 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '@/lib/firebase';
 
 import { PageHeader } from '@/components/page-header';
 import {
@@ -81,7 +82,6 @@ export default function GeneratePage() {
       setResult(null);
       
       try {
-        const functions = getFunctions();
         const generateContentFn = httpsCallable<GenerateContentInput, GenerateContentOutput>(functions, 'generateContent');
         const res = await generateContentFn({
           topic: values.topic,

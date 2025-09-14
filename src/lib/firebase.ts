@@ -12,7 +12,7 @@ const firebaseConfig = {
   "projectId": "studio-7848553620-773f9",
   "appId": "1:1048587881635:web:9bca258e10cef119d4c316",
   "storageBucket": "studio-7848553620-773f9.firebasestorage.app",
-  "apiKey": "AIzaSyDvWDCW_ZQ83qtZSg8Wqwks8tGRIePl818",
+  "apiKey": "AIzaSyCXNgOSpCgpu3sBb_BC_rkbxhXRUbAODkY",
   "authDomain": "studio-7848553620-773f9.firebaseapp.com",
   "measurementId": "",
   "messagingSenderId": "1048587881635"
@@ -40,6 +40,6 @@ if (typeof window !== 'undefined') {
 const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
-const functions = getFunctions(app);
+const functions = getFunctions(app, 'us-central1');
 
 export { app, auth, db, storage, functions };

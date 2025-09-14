@@ -4,7 +4,8 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '@/lib/firebase';
 
 import {
   SuggestImprovementsInput,
@@ -54,7 +55,6 @@ export function AiSuggestions() {
       setError(null);
       setResult(null);
       try {
-        const functions = getFunctions();
         const suggestImprovementsFn = httpsCallable<SuggestImprovementsInput, SuggestImprovementsOutput>(functions, 'suggestImprovements');
         const res = await suggestImprovementsFn(values);
         setResult(res.data);
