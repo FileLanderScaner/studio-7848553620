@@ -23,16 +23,9 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 // Initialize App Check
 if (typeof window !== 'undefined') {
-  // Pass your reCAPTCHA v3 site key (public key) to activate(). Make sure this
-  // key is the counterpart to the secret key you set in the Firebase console.
   const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
-  if (recaptchaSiteKey) {
-     // Set the debug token in development
-    if (process.env.NODE_ENV === 'development') {
-        self.FIREBASE_APPCHECK_DEBUG_TOKEN = process.env.NEXT_PUBLIC_APP_CHECK_DEBUG_TOKEN;
-    }
-    
+  if (recaptchaSiteKey && recaptchaSiteKey !== 'REEMPLAZAR_CON_TU_CLAVE_DE_SITIO_RECAPTCHA') {
     initializeAppCheck(app, {
       provider: new ReCaptchaV3Provider(recaptchaSiteKey),
       isTokenAutoRefreshEnabled: true,
