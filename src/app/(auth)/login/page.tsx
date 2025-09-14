@@ -74,6 +74,8 @@ export default function LoginPage() {
   });
 
   useEffect(() => {
+    // Si el usuario ya está autenticado (y la carga inicial ha terminado),
+    // redirigir al dashboard. Esto evita mostrar la página de login a usuarios ya conectados.
     if (!authLoading && user) {
       router.push('/dashboard');
     }
@@ -115,7 +117,8 @@ export default function LoginPage() {
         await signup(values.email, values.password);
         toast({ title: '¡Cuenta creada con éxito!', description: 'Bienvenido a Contenido Maestro.' });
       }
-      router.push('/dashboard');
+      // La redirección ahora es manejada por el `AppLayout` y el `useEffect` de esta página.
+      // No es necesario un `router.push` aquí para evitar conflictos.
     } catch (err: any) {
       setError(getFirebaseErrorMessage(err.code));
     } finally {
@@ -129,7 +132,7 @@ export default function LoginPage() {
     try {
       await loginWithGoogle();
       toast({ title: '¡Has iniciado sesión con Google!' });
-      router.push('/dashboard');
+      // La redirección ahora es manejada por el `AppLayout` y el `useEffect` de esta página.
     } catch (err: any) {
       setError(getFirebaseErrorMessage(err.code));
     } finally {
@@ -137,7 +140,8 @@ export default function LoginPage() {
     }
   };
 
-  if (authLoading || user) {
+  // Muestra una pantalla de carga si el estado de autenticación aún no se ha resuelto.
+  if (authLoading) {
      return (
       <div className="flex h-screen w-full items-center justify-center bg-background">
         <Loader2 className="h-8 w-8 animate-spin" />
