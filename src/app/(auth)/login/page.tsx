@@ -76,30 +76,39 @@ export default function LoginPage() {
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     setError(null);
-    form.clearErrors();
-    form.reset();
+    form.reset(); // Reinicia los valores y el estado del formulario
   };
 
-  const handleLogin = async (values: FormValues) => {
-    setLoading(true);
-    setError(null);
-    try {
-      await login(values.email, values.password);
-      toast({ title: '¡Bienvenido de vuelta!' });
-      router.push('/dashboard');
-    } catch (err: any) {
-      setError(getFirebaseErrorMessage(err.code));
-    } finally {
-      setLoading(false);
+  const getFirebaseErrorMessage = (errorCode: string) => {
+    switch (errorCode) {
+      case 'auth/user-not-found':
+      case 'auth/wrong-password':
+      case 'auth/invalid-credential':
+        return 'Email o contraseña incorrectos.';
+      case 'auth/email-already-in-use':
+        return 'Este email ya está registrado.';
+      case 'auth/weak-password':
+        return 'La contraseña es demasiado débil (debe tener al menos 6 caracteres).';
+      case 'auth/invalid-email':
+        return 'El formato del email no es válido.';
+      case 'auth/popup-closed-by-user':
+        return 'La ventana de inicio de sesión fue cerrada. Por favor, inténtalo de nuevo.';
+      default:
+        return 'Ocurrió un error. Por favor, inténtalo de nuevo.';
     }
   };
-
-  const handleSignup = async (values: FormValues) => {
+  
+  const handleSubmit = async (values: FormValues) => {
     setLoading(true);
     setError(null);
     try {
-      await signup(values.email, values.password);
-      toast({ title: '¡Cuenta creada con éxito!', description: 'Bienvenido a Contenido Maestro.' });
+      if (activeTab === 'login') {
+        await login(values.email, values.password);
+        toast({ title: '¡Bienvenido de vuelta!' });
+      } else {
+        await signup(values.email, values.password);
+        toast({ title: '¡Cuenta creada con éxito!', description: 'Bienvenido a Contenido Maestro.' });
+      }
       router.push('/dashboard');
     } catch (err: any) {
       setError(getFirebaseErrorMessage(err.code));
@@ -122,28 +131,6 @@ export default function LoginPage() {
     }
   };
 
-
-  const getFirebaseErrorMessage = (errorCode: string) => {
-    switch (errorCode) {
-      case 'auth/user-not-found':
-      case 'auth/wrong-password':
-      case 'auth/invalid-credential':
-        return 'Email o contraseña incorrectos.';
-      case 'auth/email-already-in-use':
-        return 'Este email ya está registrado.';
-      case 'auth/weak-password':
-        return 'La contraseña es demasiado débil (debe tener al menos 6 caracteres).';
-      case 'auth/invalid-email':
-        return 'El formato del email no es válido.';
-      case 'auth/popup-closed-by-user':
-        return 'La ventana de inicio de sesión fue cerrada. Por favor, inténtalo de nuevo.';
-      default:
-        return 'Ocurrió un error. Por favor, inténtalo de nuevo.';
-    }
-  };
-
-  const currentFormAction = activeTab === 'login' ? handleLogin : handleSignup;
-
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <div className="w-full max-w-md">
@@ -158,7 +145,7 @@ export default function LoginPage() {
             <TabsTrigger value="signup">Crear Cuenta</TabsTrigger>
           </TabsList>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(currentFormAction)}>
+            <form onSubmit={form.handleSubmit(handleSubmit)}>
               <TabsContent value="login">
                 <Card>
                   <CardHeader>
@@ -166,7 +153,7 @@ export default function LoginPage() {
                     <CardDescription>Accede a tu cuenta para continuar.</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {error && activeTab === 'login' && (
+                    {error && (
                       <Alert variant="destructive">
                         <AlertTitle>Error</AlertTitle>
                         <AlertDescription>{error}</AlertDescription>
@@ -222,7 +209,7 @@ export default function LoginPage() {
                     >
                       {loading && <Loader2 className="mr-2 animate-spin" />}
                       <GoogleIcon />
-                      Continuar con Google
+                      <span className="ml-2">Continuar con Google</span>
                     </Button>
                   </CardFooter>
                 </Card>
@@ -236,7 +223,7 @@ export default function LoginPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                     {error && activeTab === 'signup' && (
+                     {error && (
                       <Alert variant="destructive">
                         <AlertTitle>Error</AlertTitle>
                         <AlertDescription>{error}</AlertDescription>
@@ -292,7 +279,7 @@ export default function LoginPage() {
                     >
                       {loading && <Loader2 className="mr-2 animate-spin" />}
                        <GoogleIcon />
-                      Continuar con Google
+                      <span className="ml-2">Continuar con Google</span>
                     </Button>
                   </CardFooter>
                 </Card>
