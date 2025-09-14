@@ -54,6 +54,7 @@ export default function LoginPage() {
     setActiveTab(value);
     setError(null);
     form.clearErrors();
+    form.reset();
   };
 
   const handleLogin = async (values: FormValues) => {
@@ -64,7 +65,7 @@ export default function LoginPage() {
       toast({ title: '¡Bienvenido de vuelta!' });
       router.push('/dashboard');
     } catch (err: any) {
-      setError(getFirebaseErrorMessage(err));
+      setError(getFirebaseErrorMessage(err.code));
     } finally {
       setLoading(false);
     }
@@ -78,14 +79,14 @@ export default function LoginPage() {
       toast({ title: '¡Cuenta creada con éxito!', description: 'Bienvenido a Contenido Maestro.' });
       router.push('/dashboard');
     } catch (err: any) {
-      setError(getFirebaseErrorMessage(err));
+      setError(getFirebaseErrorMessage(err.code));
     } finally {
       setLoading(false);
     }
   };
 
-  const getFirebaseErrorMessage = (error: any) => {
-    switch (error.code) {
+  const getFirebaseErrorMessage = (errorCode: string) => {
+    switch (errorCode) {
       case 'auth/user-not-found':
       case 'auth/wrong-password':
       case 'auth/invalid-credential':
