@@ -19,15 +19,15 @@ export default function AppLayout({
   const router = useRouter();
 
   useEffect(() => {
-    // Si la carga ha terminado y no hay usuario, redirigir a login.
-    // Esto asegura que las rutas protegidas no se muestren a usuarios no autenticados.
+    // If the initial auth load is finished and there is no user,
+    // redirect them to the login page.
     if (!loading && !user) {
       router.push('/login');
     }
   }, [user, loading, router]);
 
-  // Mientras se verifica el estado del usuario, muestra una pantalla de carga.
-  // Esto previene mostrar contenido protegido o redirigir prematuramente.
+  // While the user's auth state is loading, show a global loading screen.
+  // This prevents a flash of protected content or a premature redirect.
   if (loading || !user) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-background">
@@ -37,7 +37,7 @@ export default function AppLayout({
     );
   }
 
-  // Si el usuario está autenticado y la carga ha finalizado, renderiza el layout de la aplicación.
+  // If the user is authenticated and the loading is complete, render the app layout.
   return (
     <ScheduledPostsProvider>
       <AppSidebar />

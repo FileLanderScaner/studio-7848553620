@@ -74,8 +74,8 @@ export default function LoginPage() {
   });
 
   useEffect(() => {
-    // Si el usuario ya está autenticado (y la carga inicial ha terminado),
-    // redirigir al dashboard. Esto evita mostrar la página de login a usuarios ya conectados.
+    // If the user is already authenticated (and the initial load is complete),
+    // redirect them to the dashboard. This prevents showing the login page to logged-in users.
     if (!authLoading && user) {
       router.push('/dashboard');
     }
@@ -117,8 +117,7 @@ export default function LoginPage() {
         await signup(values.email, values.password);
         toast({ title: '¡Cuenta creada con éxito!', description: 'Bienvenido a Contenido Maestro.' });
       }
-      // La redirección ahora es manejada por el `AppLayout` y el `useEffect` de esta página.
-      // No es necesario un `router.push` aquí para evitar conflictos.
+      // Redirection is now handled by the useEffect hook watching the user state.
     } catch (err: any) {
       setError(getFirebaseErrorMessage(err.code));
     } finally {
@@ -132,7 +131,7 @@ export default function LoginPage() {
     try {
       await loginWithGoogle();
       toast({ title: '¡Has iniciado sesión con Google!' });
-      // La redirección ahora es manejada por el `AppLayout` y el `useEffect` de esta página.
+      // Redirection is handled by the useEffect hook.
     } catch (err: any) {
       setError(getFirebaseErrorMessage(err.code));
     } finally {
@@ -140,8 +139,8 @@ export default function LoginPage() {
     }
   };
 
-  // Muestra una pantalla de carga si el estado de autenticación aún no se ha resuelto.
-  // o si el usuario ya está conectado y estamos esperando la redirección.
+  // While the auth state is loading, or if the user is logged in and we are
+  // waiting for the redirect, show a loading screen.
   if (authLoading || user) {
      return (
       <div className="flex h-screen w-full items-center justify-center bg-background">

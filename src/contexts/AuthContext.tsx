@@ -62,8 +62,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     await signOut(auth);
-    // La redirección a /login se gestiona en el AppLayout
-    // para evitar conflictos. Aquí solo limpiamos el estado.
+    // After signOut, onAuthStateChanged will fire and the AppLayout will handle the redirect.
+    router.push('/login');
   };
 
   const value = {
