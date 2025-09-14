@@ -1,13 +1,9 @@
 'use server';
 /**
  * @fileOverview A flow to generate content based on a topic and details.
- *
- * - generateContent - A function that generates content.
- * - GenerateContentInput - The input type for the generateContent function.
- * - GenerateContentOutput - The return type for the generateContent function.
  */
 
-import { ai } from '@/ai/genkit';
+import { ai } from '../genkit';
 import { z } from 'zod';
 import { googleAI } from '@genkit-ai/googleai';
 
@@ -16,19 +12,8 @@ const GenerateContentInputSchema = z.object({
   contentType: z.enum(['text', 'image', 'video']),
   details: z.string().describe('Additional details like tone, target audience, etc.'),
 });
-export type GenerateContentInput = z.infer<typeof GenerateContentInputSchema>;
 
-export type GenerateContentOutput = {
-    type: 'text' | 'image' | 'video',
-    data: string
-};
-
-
-export async function generateContent(input: GenerateContentInput): Promise<GenerateContentOutput> {
-  return generateContentFlow(input);
-}
-
-const generateContentFlow = ai.defineFlow(
+export const generateContentFlow = ai.defineFlow(
   {
     name: 'generateContentFlow',
     inputSchema: GenerateContentInputSchema,

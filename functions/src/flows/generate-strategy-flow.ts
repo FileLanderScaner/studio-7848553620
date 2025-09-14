@@ -1,19 +1,14 @@
 'use server';
 /**
  * @fileOverview A flow to generate a weekly content strategy based on a topic.
- *
- * - generateWeeklyStrategy - A function that generates the strategy.
- * - GenerateWeeklyStrategyInput - The input type for the function.
- * - GenerateWeeklyStrategyOutput - The return type for the function.
  */
 
-import { ai } from '@/ai/genkit';
+import { ai } from '../genkit';
 import { z } from 'genkit';
 
 const GenerateWeeklyStrategyInputSchema = z.object({
   topic: z.string().describe('The general topic for the content strategy.'),
 });
-export type GenerateWeeklyStrategyInput = z.infer<typeof GenerateWeeklyStrategyInputSchema>;
 
 const DailyPlanSchema = z.object({
     day: z.string().describe("The day of the week (e.g., 'Lunes')."),
@@ -24,12 +19,6 @@ const DailyPlanSchema = z.object({
 const GenerateWeeklyStrategyOutputSchema = z.object({
   strategy: z.array(DailyPlanSchema).describe('An array of 7 daily content plans.'),
 });
-export type GenerateWeeklyStrategyOutput = z.infer<typeof GenerateWeeklyStrategyOutputSchema>;
-
-
-export async function generateWeeklyStrategy(input: GenerateWeeklyStrategyInput): Promise<GenerateWeeklyStrategyOutput> {
-  return generateWeeklyStrategyFlow(input);
-}
 
 const prompt = ai.definePrompt({
   name: 'generateWeeklyStrategyPrompt',
@@ -44,7 +33,7 @@ Topic: {{{topic}}}
 `,
 });
 
-const generateWeeklyStrategyFlow = ai.defineFlow(
+export const generateWeeklyStrategyFlow = ai.defineFlow(
   {
     name: 'generateWeeklyStrategyFlow',
     inputSchema: GenerateWeeklyStrategyInputSchema,

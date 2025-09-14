@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 import { PageHeader } from '@/components/page-header';
 import {
@@ -36,7 +37,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Sparkles, Clipboard, Download, Image as ImageIcon, CalendarPlus } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AiSuggestions } from '@/components/ai-suggestions';
-import { generateContent, GenerateContentOutput } from '@/ai/flows/generate-content-flow';
+import { GenerateContentOutput, GenerateContentInput } from '@/lib/genkit-types';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
 import { WeeklyStrategy } from '@/components/weekly-strategy';
@@ -80,12 +81,14 @@ export default function GeneratePage() {
       setResult(null);
       
       try {
-        const res = await generateContent({
+        const functions = getFunctions();
+        const generateContentFn = httpsCallable<GenerateContentInput, GenerateContentOutput>(functions, 'generateContent');
+        const res = await generateContentFn({
           topic: values.topic,
           contentType: values.contentType,
           details: values.details || '',
         });
-        setResult(res);
+        setResult(res.data);
       } catch (e: any) {
         if (typeof e.message === 'string' && e.message.includes('429')) {
           setError('Se ha excedido la cuota de la API. Por favor, inténtalo de nuevo más tarde.');

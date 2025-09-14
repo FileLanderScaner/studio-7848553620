@@ -1,32 +1,51 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+'use server';
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { defineSecret } from 'firebase-functions/params';
 
-import {setGlobalOptions} from "firebase-functions";
-import {onRequest} from "firebase-functions/https";
-import * as logger from "firebase-functions/logger";
+// This is a trick to make sure the secret is deployed.
+defineSecret('GOOGLE_GENAI_API_KEY');
 
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
+// Initialize Genkit and our flows.
+// Note that we're not exporting the flows from here, just ensuring they are initialized.
+import './flows/ai-powered-content-suggestions';
+import './flows/generate-content-flow';
+import './flows/generate-strategy-flow';
 
-// For cost control, you can set the maximum number of containers that can be
-// running at the same time. This helps mitigate the impact of unexpected
-// traffic spikes by instead downgrading performance. This limit is a
-// per-function limit. You can override the limit for each function using the
-// `maxInstances` option in the function's options, e.g.
-// `onRequest({ maxInstances: 5 }, (req, res) => { ... })`.
-// NOTE: setGlobalOptions does not apply to functions using the v1 API. V1
-// functions should each use functions.runWith({ maxInstances: 10 }) instead.
-// In the v1 API, each function can only serve one request per container, so
-// this will be the maximum concurrent request count.
-setGlobalOptions({ maxInstances: 10 });
+import { suggestImprovementsFlow } from './flows/ai-powered-content-suggestions';
+import { generateContentFlow } from './flows/generate-content-flow';
+import { generateWeeklyStrategyFlow } from './flows/generate-strategy-flow';
+import { flow } from 'genkit';
 
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+// Helper function to wrap a Genkit flow in a Firebase Callable Function
+function asCallable<I, O>(f: (input: I) => Promise<O>) {
+  return onCall<I>(async (request): Promise<O> => {
+    // TODO: Add auth check
+    // if (!request.auth) {
+    //   throw new HttpsError(
+    //     'unauthenticated',
+    //     'You must be logged in to call this function'
+    //   );
+    // }
+    try {
+      return await f(request.data);
+    } catch (e) {
+      console.error(e);
+      if (e instanceof HttpsError) {
+        throw e;
+      }
+      throw new HttpsError('internal', 'An unexpected error occurred.');
+    }
+  });
+}
+
+export const suggestImprovements = asCallable(suggestImprovementsFlow);
+export const generateContent = asCallable(generateContentFlow);
+export const generateWeeklyStrategy = asCallable(generateWeeklyStrategyFlow);
+
+// A simple flow to test if Genkit is working.
+export const helloWorld = onCall(async () => {
+    const testFlow = flow(
+      { name: 'testFlow' },
+      async () => 'Hello from Genkit on Firebase!');
+    return await testFlow();
+});

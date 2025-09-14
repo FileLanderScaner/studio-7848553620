@@ -4,10 +4,12 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+
 import {
-  generateWeeklyStrategy,
+  GenerateWeeklyStrategyInput,
   GenerateWeeklyStrategyOutput,
-} from '@/ai/flows/generate-strategy-flow';
+} from '@/lib/genkit-types';
 import {
   Card,
   CardContent,
@@ -59,8 +61,10 @@ export function WeeklyStrategy() {
       setError(null);
       setResult(null);
       try {
-        const res = await generateWeeklyStrategy(values);
-        setResult(res);
+        const functions = getFunctions();
+        const generateWeeklyStrategyFn = httpsCallable<GenerateWeeklyStrategyInput, GenerateWeeklyStrategyOutput>(functions, 'generateWeeklyStrategy');
+        const res = await generateWeeklyStrategyFn(values);
+        setResult(res.data);
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Ocurrió un error desconocido.');
       }

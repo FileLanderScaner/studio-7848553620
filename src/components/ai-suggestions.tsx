@@ -4,11 +4,12 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 import {
-  suggestImprovements,
+  SuggestImprovementsInput,
   SuggestImprovementsOutput,
-} from '@/ai/flows/ai-powered-content-suggestions';
+} from '@/lib/genkit-types';
 import {
   Card,
   CardContent,
@@ -53,8 +54,10 @@ export function AiSuggestions() {
       setError(null);
       setResult(null);
       try {
-        const res = await suggestImprovements(values);
-        setResult(res);
+        const functions = getFunctions();
+        const suggestImprovementsFn = httpsCallable<SuggestImprovementsInput, SuggestImprovementsOutput>(functions, 'suggestImprovements');
+        const res = await suggestImprovementsFn(values);
+        setResult(res.data);
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Ocurrió un error desconocido.');
       }

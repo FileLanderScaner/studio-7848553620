@@ -7,23 +7,17 @@
  * - SuggestImprovementsOutput - The return type for the suggestImprovements function.
  */
 
-import {ai} from '@/ai/genkit';
+import {ai} from '../genkit';
 import {z} from 'genkit';
 
 const SuggestImprovementsInputSchema = z.object({
   contentDraft: z.string().describe('The content draft to improve.'),
 });
-export type SuggestImprovementsInput = z.infer<typeof SuggestImprovementsInputSchema>;
 
 const SuggestImprovementsOutputSchema = z.object({
   improvedContent: z.string().describe('The improved content with suggestions applied.'),
   explanation: z.string().describe('Explanation of the improvements suggested.'),
 });
-export type SuggestImprovementsOutput = z.infer<typeof SuggestImprovementsOutputSchema>;
-
-export async function suggestImprovements(input: SuggestImprovementsInput): Promise<SuggestImprovementsOutput> {
-  return suggestImprovementsFlow(input);
-}
 
 const prompt = ai.definePrompt({
   name: 'suggestImprovementsPrompt',
@@ -36,7 +30,7 @@ Content Draft: {{{contentDraft}}}
 Improved Content:`,
 });
 
-const suggestImprovementsFlow = ai.defineFlow(
+export const suggestImprovementsFlow = ai.defineFlow(
   {
     name: 'suggestImprovementsFlow',
     inputSchema: SuggestImprovementsInputSchema,
