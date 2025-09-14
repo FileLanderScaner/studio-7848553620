@@ -17,6 +17,7 @@ import {
   MessageSquare,
   Share2,
   ThumbsUp,
+  Loader2,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
@@ -54,7 +55,7 @@ const features = [
 ];
 
 export default function DashboardPage() {
-  const { scheduledPosts } = useScheduledPosts();
+  const { scheduledPosts, loading } = useScheduledPosts();
 
   const likes = scheduledPosts.reduce((acc, post) => acc + (post.likes || 0), 0);
   const comments = scheduledPosts.reduce(
@@ -85,6 +86,15 @@ export default function DashboardPage() {
     .filter((post) => new Date(post.date) >= new Date())
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
     
+  if (loading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+        <p className="ml-2">Cargando tu contenido...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-0">
       <PageHeader

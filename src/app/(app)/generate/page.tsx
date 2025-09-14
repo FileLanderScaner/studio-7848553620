@@ -122,8 +122,8 @@ export default function GeneratePage() {
     }
   };
 
-  const onSchedule = (post: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => {
-    handleSchedulePost(post);
+  const onSchedule = async (post: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => {
+    await handleSchedulePost(post);
     setScheduleModalOpen(false);
     toast({
       title: '¡Publicación programada!',

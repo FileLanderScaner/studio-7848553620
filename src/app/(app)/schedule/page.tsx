@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/card';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { PlusCircle } from 'lucide-react';
+import { Loader2, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import { ScheduledPost } from '@/lib/scheduled-posts';
 import { useToast } from '@/hooks/use-toast';
@@ -30,13 +30,13 @@ const optimalTimes = [
 
 
 export default function SchedulePage() {
-  const { scheduledPosts, handleSchedulePost } = useScheduledPosts();
+  const { scheduledPosts, handleSchedulePost, loading } = useScheduledPosts();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
 
-  const onSchedulePost = (newPost: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => {
-      handleSchedulePost(newPost);
+  const onSchedulePost = async (newPost: Omit<ScheduledPost, 'id' | 'likes' | 'comments' | 'shares'>) => {
+      await handleSchedulePost(newPost);
       setIsModalOpen(false);
       toast({
         title: '¡Publicación programada!',
@@ -45,6 +45,15 @@ export default function SchedulePage() {
   };
   
   const scheduledDays = scheduledPosts.map(post => new Date(post.date));
+
+  if (loading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+        <p className="ml-2">Cargando tu calendario...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-0">

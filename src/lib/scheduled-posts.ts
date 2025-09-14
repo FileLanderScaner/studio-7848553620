@@ -1,5 +1,5 @@
 export type ScheduledPost = {
-    id: number;
+    id: string; // Changed to string to accommodate Firestore document IDs
     title: string;
     type: string;
     date: string;
@@ -11,9 +11,9 @@ export type ScheduledPost = {
     shares?: number;
 }
 
-export const scheduledPosts: ScheduledPost[] = [
+// This data is now used to seed a new user's account
+export const initialScheduledPosts: Omit<ScheduledPost, 'id'>[] = [
   {
-    id: 1,
     title: '5 tips para crecer en Instagram',
     type: 'Imagen',
     date: new Date('2024-08-15T10:00:00').toISOString(),
@@ -25,7 +25,6 @@ export const scheduledPosts: ScheduledPost[] = [
     shares: 12,
   },
   {
-    id: 2,
     title: 'Análisis del nuevo iPhone',
     type: 'Video',
     date: new Date('2024-08-15T18:30:00').toISOString(),
@@ -37,7 +36,6 @@ export const scheduledPosts: ScheduledPost[] = [
     shares: 45,
   },
   {
-    id: 3,
     title: 'Cómo la IA está cambiando el marketing',
     type: 'Texto',
     date: new Date('2024-08-16T09:00:00').toISOString(),
@@ -49,7 +47,6 @@ export const scheduledPosts: ScheduledPost[] = [
     shares: 78,
   },
     {
-    id: 4,
     title: 'Receta de pastel de chocolate fácil',
     type: 'Imagen',
     date: new Date('2024-08-17T12:00:00').toISOString(),
@@ -61,7 +58,6 @@ export const scheduledPosts: ScheduledPost[] = [
     shares: 150,
   },
   {
-    id: 5,
     title: 'Resumen de noticias de la semana',
     type: 'Texto',
     date: new Date('2024-08-18T08:00:00').toISOString(),
@@ -73,7 +69,6 @@ export const scheduledPosts: ScheduledPost[] = [
     shares: 40,
   },
   {
-    id: 6,
     title: 'Los mejores destinos para viajar en 2025',
     type: 'Video',
     date: new Date('2024-08-19T20:00:00').toISOString(),
@@ -85,7 +80,6 @@ export const scheduledPosts: ScheduledPost[] = [
     shares: 200,
   },
   {
-    id: 7,
     title: 'Mi setup de productividad para 2024',
     type: 'Imagen',
     date: new Date('2024-08-20T11:00:00').toISOString(),

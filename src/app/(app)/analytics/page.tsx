@@ -9,11 +9,11 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useScheduledPosts } from '@/contexts/ScheduledPostsContext';
-import { MessageSquare, Share2, ThumbsUp } from 'lucide-react';
+import { Loader2, MessageSquare, Share2, ThumbsUp } from 'lucide-react';
 
 
 export default function AnalyticsPage() {
-  const { scheduledPosts } = useScheduledPosts();
+  const { scheduledPosts, loading } = useScheduledPosts();
 
   const likes = scheduledPosts.reduce((acc, post) => acc + (post.likes || 0), 0);
   const comments = scheduledPosts.reduce((acc, post) => acc + (post.comments || 0), 0);
@@ -43,6 +43,15 @@ export default function AnalyticsPage() {
       changeType: 'negative',
     },
   ];
+
+  if (loading) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin" />
+        <p className="ml-2">Cargando tus estadísticas...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-0">
