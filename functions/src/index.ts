@@ -28,7 +28,7 @@ export { stripeWebhook };
 
 // Helper function to wrap a Genkit flow in a Firebase Callable Function
 function asCallable<I, O>(f: (input: I) => Promise<O>) {
-  return onCall<I>(async (request): Promise<O> => {
+  return onCall<I>({ secrets: ['GOOGLE_GENAI_API_KEY'] }, async (request): Promise<O> => {
     // TODO: Add auth check
     // if (!request.auth) {
     //   throw new HttpsError(

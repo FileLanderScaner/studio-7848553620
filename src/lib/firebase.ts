@@ -31,6 +31,11 @@ if (typeof window !== 'undefined') {
 
 // Initialize App Check
 if (typeof window !== 'undefined') {
+  // In a development environment, the domain is not authorized for reCAPTCHA.
+  // To solve this, we set the debug token for App Check.
+  if (process.env.NODE_ENV !== 'production') {
+    (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+  }
   const recaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
   if (recaptchaKey && recaptchaKey !== 'REEMPLAZAR_CON_TU_CLAVE_DE_SITIO_RECAPTCHA') {
