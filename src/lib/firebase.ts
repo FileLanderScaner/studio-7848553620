@@ -5,19 +5,29 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getFunctions } from "firebase/functions";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+import { getAnalytics } from "firebase/analytics";
 
 // Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCYeXzhTpUHz0dht40TraVL2mDWovwTySQ",
+  apiKey: "AIzaSyDvWDCW_ZQ83qtZSg8Wqwks8tGRIePl818",
   authDomain: "studio-7848553620-773f9.firebaseapp.com",
+  databaseURL: "https://studio-7848553620-773f9-default-rtdb.firebaseio.com",
   projectId: "studio-7848553620-773f9",
-  storageBucket: "studio-7848553620-773f9.appspot.com",
+  storageBucket: "studio-7848553620-773f9.firebasestorage.app",
   messagingSenderId: "1048587881635",
-  appId: "1:1048587881635:web:9bca258e10cef119d4c316"
+  appId: "1:1048587881635:web:9bca258e10cef119d4c316",
+  measurementId: "G-BE09ELLNHX"
 };
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
+// Initialize Analytics
+if (typeof window !== 'undefined') {
+    getAnalytics(app);
+}
+
 
 // Initialize App Check
 if (typeof window !== 'undefined') {
