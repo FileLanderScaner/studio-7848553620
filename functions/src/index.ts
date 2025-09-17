@@ -38,12 +38,24 @@ function asCallable<I, O>(f: (input: I) => Promise<O>) {
     // }
     try {
       return await f(request.data);
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      console.error(
+        'Error in callable function:',
+        JSON.stringify(
+          e,
+          Object.getOwnPropertyNames(e).reduce((acc, key) => {
+            acc[key] = (e as any)[key];
+            return acc;
+          }, {} as Record<string, any>),
+          2
+        )
+      );
       if (e instanceof HttpsError) {
         throw e;
       }
-      throw new HttpsError('internal', 'An unexpected error occurred.');
+      throw new HttpsError('internal', e.message || 'An unexpected error occurred.', {
+        originalError: e,
+      });
     }
   });
 }

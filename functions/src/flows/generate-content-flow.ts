@@ -20,6 +20,10 @@ export const generateContentFlow = ai.defineFlow(
     outputSchema: z.any(),
   },
   async (input) => {
+    const apiKey = process.env.GOOGLE_GENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error('The GOOGLE_GENAI_API_KEY environment variable is not set. Please add it to your .env file for local development and configure it as a secret for production.');
+    }
 
     if (input.contentType === 'text') {
         const { output } = await ai.generate({
