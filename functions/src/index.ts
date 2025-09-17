@@ -5,16 +5,26 @@ import { flow } from 'genkit';
 
 // This is a trick to make sure the secret is deployed.
 defineSecret('GOOGLE_GENAI_API_KEY');
+defineSecret('STRIPE_SECRET_KEY');
+defineSecret('STRIPE_WEBHOOK_SECRET');
 
 // Initialize Genkit and our flows.
 // Note that we're not exporting the flows from here, just ensuring they are initialized.
 import './flows/ai-powered-content-suggestions';
 import './flows/generate-content-flow';
 import './flows/generate-strategy-flow';
+import './flows/oauth-handlers';
+import './flows/scheduled-publisher';
+import './flows/analytics-sync';
+import './flows/stripe-handlers';
 
 import { suggestImprovementsFlow } from './flows/ai-powered-content-suggestions';
 import { generateContentFlow } from './flows/generate-content-flow';
 import { generateWeeklyStrategyFlow } from './flows/generate-strategy-flow';
+import { stripeWebhook } from './flows/stripe-handlers';
+
+// Export the webhook
+export { stripeWebhook };
 
 // Helper function to wrap a Genkit flow in a Firebase Callable Function
 function asCallable<I, O>(f: (input: I) => Promise<O>) {

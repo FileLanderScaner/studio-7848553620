@@ -2,8 +2,28 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
+
+    // Users can read, create, and update their own document.
+    match /users/{userId} {
+      allow read, update, create: if request.auth.uid == userId;
+      // Deleting a user document is not allowed from the client.
+      allow delete: if false;
+
+      // A user can manage their own scheduled posts.
+      match /scheduled_posts/{postId} {
+        allow read, write: if request.auth.uid == userId;
+      }
+
+      // A user can manage their own social media connection tokens.
+      match /user_connections/{connectionId} {
+        allow read, write: if request.auth.uid == userId;
+      }
+
+      // A user can read their own subscription, but only backend functions can write to it.
+      match /subscriptions/{subscriptionId} {
+        allow read: if request.auth.uid == userId;
+        allow write: if false; // Managed by Stripe webhook function
+      }
     }
   }
 }

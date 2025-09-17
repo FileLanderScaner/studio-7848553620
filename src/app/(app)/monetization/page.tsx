@@ -70,10 +70,16 @@ const premiumContent = [
 ];
 
 export default function MonetizationPage() {
-  const [currentPlanId, setCurrentPlanId] = useState('free');
+  const { user, subscriptionPlan } = useAuth();
   const { toast } = useToast();
+  const [loading, setLoading] = useState<Record<string, boolean>>({});
 
-  const handleSubscribe = (planId: string) => {
+  const handleSubscribe = async (planId: string) => {
+    if (!user) {
+      toast({ title: 'Error', description: 'Debes iniciar sesión para suscribirte.', variant: 'destructive' });
+      return;
+    }
+
     if (planId === 'business') {
       window.location.href = "mailto:contacto@contenidomaestro.com?subject=Consulta sobre el plan Business";
       toast({
@@ -82,13 +88,23 @@ export default function MonetizationPage() {
       });
       return;
     }
-    setCurrentPlanId(planId);
-    toast({
-      title: '¡Suscripción Exitosa!',
-      description: 'Has actualizado tu plan a Pro.',
-    });
+
+    setLoading(prev => ({ ...prev, [planId]: true }));
+
+    try {
+      const checkoutUrl = await runGenkitFlow<any, string>('createCheckoutSessionFlow', { planId });
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      }
+    } catch (error) {
+      console.error('Failed to create checkout session', error);
+      toast({ title: 'Error de Suscripción', description: 'No se pudo iniciar el proceso de pago.', variant: 'destructive' });
+    } finally {
+      setLoading(prev => ({ ...prev, [planId]: false }));
+    }
   };
 
+  const currentPlanId = subscriptionPlan || 'free';
   const isPro = currentPlanId === 'pro' || currentPlanId === 'business';
 
   return (
