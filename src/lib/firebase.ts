@@ -7,15 +7,13 @@ import { getFunctions } from "firebase/functions";
 import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDGgY2pdwspwOErx_rcaB-NB-uAGXwv_g8",
-  authDomain: "motivateme-vwbmd.firebaseapp.com",
-  projectId: "motivateme-vwbmd",
-  storageBucket: "motivateme-vwbmd.firebasestorage.app",
-  messagingSenderId: "31684947002",
-  appId: "1:31684947002:web:631c7c2cd8761ef3791903",
-  measurementId: "G-N0KWKFTXM6"
+  apiKey: "AIzaSyDvWDCW_ZQ83qtZSg8Wqwks8tGRIePl818",
+  authDomain: "studio-7848553620-773f9.firebaseapp.com",
+  projectId: "studio-7848553620-773f9",
+  storageBucket: "studio-7848553620-773f9.firebasestorage.app",
+  messagingSenderId: "1048587881635",
+  appId: "1:1048587881635:web:9bca258e10cef119d4c316"
 };
 
 // Initialize Firebase
@@ -23,18 +21,17 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 // Initialize App Check
 if (typeof window !== 'undefined') {
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+  const recaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
-  if (recaptchaSiteKey && recaptchaSiteKey !== 'REEMPLAZAR_CON_TU_CLAVE_DE_SITIO_RECAPTCHA') {
+  if (recaptchaKey) {
     initializeAppCheck(app, {
-      provider: new ReCaptchaV3Provider(recaptchaSiteKey),
+      provider: new ReCaptchaV3Provider(recaptchaKey),
       isTokenAutoRefreshEnabled: true,
     });
   } else {
-    console.warn('ADVERTENCIA: La variable de entorno NEXT_PUBLIC_RECAPTCHA_SITE_KEY no está configurada. Firebase App Check no se ha inicializado. Esto es aceptable para desarrollo local, pero es requerido para producción.');
+    console.warn('Firebase App Check: NEXT_PUBLIC_RECAPTCHA_SITE_KEY is not set. App Check is not enabled. This is expected for local development but required for production.');
   }
 }
-
 
 const auth = getAuth(app);
 const db = getFirestore(app);

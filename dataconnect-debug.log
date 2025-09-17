@@ -1,8 +1,95 @@
-I0916 23:45:30.505349     744 load.go:31] Reloading schema and connectors...
-E0916 23:45:30.547155     744 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service "motivateme-vwbmd". No service has a schema.
-E0916 23:45:30.555131     744 load.go:73] Could not load sources: 
+I0917 01:56:41.789287   23427 load.go:31] Reloading schema and connectors...
+E0917 01:56:41.843517   23427 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service "motivateme-vwbmd". No service has a schema.
+E0917 01:56:41.843618   23427 load.go:73] Could not load sources: 
 Errors: schema/schema.gql:9:14: Undefined directive column.
-I0916 23:45:30.555660     744 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+I0917 01:56:41.847005   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
 Generated sources: prelude.gql [73251B] 
-I0916 23:45:30.565634     744 load.go:74] Finished reloading
-I0916 23:45:30.584928     744 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+I0917 01:56:41.847905   23427 load.go:74] Finished reloading
+I0917 01:56:41.953284   23427 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+I0917 02:07:41.849478   23427 load.go:31] Reloading schema and connectors...
+E0917 02:07:41.883062   23427 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service "motivateme-vwbmd". No service has a schema.
+E0917 02:07:41.883124   23427 load.go:73] Could not load sources: 
+Errors: schema/schema.gql:9:14: Undefined directive column.
+I0917 02:07:41.884128   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] 
+I0917 02:07:41.909445   23427 load.go:74] Finished reloading
+I0917 02:08:01.849399   23427 load.go:31] Reloading schema and connectors...
+E0917 02:08:01.859934   23427 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service "motivateme-vwbmd". No service has a schema.
+E0917 02:08:01.859996   23427 load.go:73] Could not load sources: 
+Errors: schema/schema.gql:2:14: Undefined directive column.
+I0917 02:08:01.860456   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] 
+I0917 02:08:01.860487   23427 load.go:74] Finished reloading
+I0917 02:09:21.853422   23427 load.go:31] Reloading schema and connectors...
+W0917 02:09:22.250247   23427 control.go:68] [/emulator/studio db79] connector "example" has errors: example/mutations.gql:13:8: Unknown fragment "Movie_Key".
+example/mutations.gql:6:3: Field "movie_insert" must not have a selection since type "Movie_KeyOutput" has no subfields.
+example/mutations.gql:23:8: Unknown fragment "User_Key".
+example/mutations.gql:18:3: Field "user_upsert" must not have a selection since type "User_KeyOutput" has no subfields.
+example/mutations.gql:40:8: Unknown fragment "Review_Key".
+example/mutations.gql:32:3: Field "review_upsert" must not have a selection since type "Review_KeyOutput" has no subfields.
+example/mutations.gql:54:8: Unknown fragment "Review_Key".
+example/mutations.gql:47:3: Unknown argument "where" on field "Mutation.review_delete".
+example/mutations.gql:47:3: Field "review_delete" must not have a selection since type "Review_KeyOutput" has no subfields.
+example/queries.gql:7:8: Unknown fragment "Movie_Key".
+example/queries.gql:14:8: Unknown fragment "User_Key".
+example/queries.gql:25:12: Unknown fragment "Movie_Key".
+example/queries.gql:21:5: Cannot query field "reviews" on type "User".
+example/queries.gql:31:8: Unknown fragment "User_Key".
+example/queries.gql:41:5: Cannot query field "metadata" on type "Movie". Did you mean "_metadata"?
+example/queries.gql:50:12: Unknown fragment "User_Key".
+example/queries.gql:46:5: Cannot query field "reviews" on type "Movie".
+example/queries.gql:56:8: Unknown fragment "Movie_Key".
+example/queries.gql:69:13: Field "_like" is not defined by type "String_Filter". Did you mean "le"?
+example/queries.gql:74:13: Field "_eq" is not defined by type "String_Filter". Did you mean "eq", "ne", "ge", or "le"?
+example/queries.gql:84:8: Unknown fragment "Movie_Key".
+
+sources: example/mutations.gql [750B] example/queries.gql [1036B] 
+I0917 02:09:22.284885   23427 control.go:94] [/emulator/studio db79] UpdateResources(): done
+Schema: sources: schema/schema.gql [1992B] 
+Connector "example": sources: example/mutations.gql [750B] example/queries.gql [1036B] 
+E0917 02:09:22.291261   23427 load.go:73] Could not load sources: 
+Errors: example/mutations.gql:13:8: Unknown fragment "Movie_Key".
+example/mutations.gql:6:3: Field "movie_insert" must not have a selection since type "Movie_KeyOutput" has no subfields.
+example/mutations.gql:23:8: Unknown fragment "User_Key".
+example/mutations.gql:18:3: Field "user_upsert" must not have a selection since type "User_KeyOutput" has no subfields.
+example/mutations.gql:40:8: Unknown fragment "Review_Key".
+example/mutations.gql:32:3: Field "review_upsert" must not have a selection since type "Review_KeyOutput" has no subfields.
+example/mutations.gql:54:8: Unknown fragment "Review_Key".
+example/mutations.gql:47:3: Unknown argument "where" on field "Mutation.review_delete".
+example/mutations.gql:47:3: Field "review_delete" must not have a selection since type "Review_KeyOutput" has no subfields.
+example/queries.gql:7:8: Unknown fragment "Movie_Key".
+example/queries.gql:14:8: Unknown fragment "User_Key".
+example/queries.gql:25:12: Unknown fragment "Movie_Key".
+example/queries.gql:21:5: Cannot query field "reviews" on type "User".
+example/queries.gql:31:8: Unknown fragment "User_Key".
+example/queries.gql:41:5: Cannot query field "metadata" on type "Movie". Did you mean "_metadata"?
+example/queries.gql:50:12: Unknown fragment "User_Key".
+example/queries.gql:46:5: Cannot query field "reviews" on type "Movie".
+example/queries.gql:56:8: Unknown fragment "Movie_Key".
+example/queries.gql:69:13: Field "_like" is not defined by type "String_Filter". Did you mean "le"?
+example/queries.gql:74:13: Field "_eq" is not defined by type "String_Filter". Did you mean "eq", "ne", "ge", or "le"?
+example/queries.gql:84:8: Unknown fragment "Movie_Key".
+I0917 02:09:22.296833   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] main/implicit.gql [1261B] main/input.gql [28173B] main/relation.gql [13746B] main/query.gql [5099B] main/mutation.gql [13679B] 
+I0917 02:09:22.296905   23427 load.go:74] Finished reloading
+I0917 02:09:31.849342   23427 load.go:31] Reloading schema and connectors...
+I0917 02:09:31.921634   23427 control.go:94] [/emulator/studio db79] UpdateResources(): done
+Connector "example": sources: example/mutations.gql [1243B] example/queries.gql [1801B] 
+I0917 02:09:32.004100   23427 codegen.go:82] [connector "example" javascriptSdk] Generating sources into "/home/user/studio/src/dataconnect-generated"
+I0917 02:09:32.053728   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] main/implicit.gql [1261B] main/input.gql [28173B] main/relation.gql [13746B] main/query.gql [5099B] main/mutation.gql [13679B] 
+I0917 02:09:32.060626   23427 collector.go:107] connector "example" javascriptSdk wrote into "/home/user/studio/src/dataconnect-generated"
+Generated sources: README.md [40931B] react/esm/package.json [17B] react/index.cjs.js [3439B] react/esm/index.esm.js [3269B] react/README.md [48299B] index.d.ts [8025B] esm/index.esm.js [3559B] esm/package.json [17B] index.cjs.js [4049B] react/index.d.ts [3961B] react/package.json [460B] package.json [863B] 
+I0917 02:09:32.072667   23427 installsdk.go:55] Package @dataconnect/generated is already installed. Skipping installation
+I0917 02:09:32.074758   23427 load.go:109] Finished reloading
+I0917 02:11:31.859199   23427 load.go:31] Reloading schema and connectors...
+I0917 02:11:31.956167   23427 control.go:94] [/emulator/studio db79] UpdateResources(): done
+Schema: sources: schema/schema.gql [1991B] 
+Connector "example": sources: example/mutations.gql [1243B] example/queries.gql [1801B] 
+I0917 02:11:32.028543   23427 codegen.go:82] [connector "example" javascriptSdk] Generating sources into "/home/user/studio/src/dataconnect-generated"
+I0917 02:11:32.054617   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: main/query.gql [5099B] main/mutation.gql [13679B] main/implicit.gql [1261B] prelude.gql [73251B] main/input.gql [28173B] main/relation.gql [13746B] 
+I0917 02:11:32.059968   23427 collector.go:107] connector "example" javascriptSdk wrote into "/home/user/studio/src/dataconnect-generated"
+Generated sources: index.d.ts [8025B] esm/index.esm.js [3559B] index.cjs.js [4049B] README.md [40931B] react/index.d.ts [3961B] react/package.json [460B] react/esm/package.json [17B] react/README.md [48299B] esm/package.json [17B] package.json [863B] react/index.cjs.js [3439B] react/esm/index.esm.js [3269B] 
+I0917 02:11:32.081321   23427 installsdk.go:55] Package @dataconnect/generated is already installed. Skipping installation
+I0917 02:11:32.081392   23427 load.go:109] Finished reloading

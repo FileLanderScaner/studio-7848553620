@@ -239,3 +239,157 @@ I0916 23:45:30.584928     744 dev.go:102] Listening on address (HTTP + gRPC): 12
 [debug] [2025-09-16T23:45:31.346Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
 [debug] [2025-09-16T23:45:31.350Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
 [error] [Firebase Plugin] error:  {}
+[info] [Firebase Plugin] Stopping Data Connect toolkit
+[warn] ⚠  Data Connect Emulator has exited upon receiving signal: SIGINT 
+[debug] [2025-09-17T01:55:29.978Z] [Firebase Plugin] Activating Firebase extension.
+[debug] [2025-09-17T01:56:04.610Z] [Firebase Plugin] requireAuthWrapper
+[debug] [2025-09-17T01:56:04.613Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/userinfo.email"]
+[debug] [2025-09-17T01:56:04.614Z] > authorizing via signed-in user (akuma424424@gmail.com)
+[debug] [2025-09-17T01:56:04.622Z] Checked if tokens are valid: false, expires at: 1758069926601
+[debug] [2025-09-17T01:56:04.623Z] Checked if tokens are valid: false, expires at: 1758069926601
+[debug] [2025-09-17T01:56:04.624Z] > refreshing access token with scopes: []
+[debug] [2025-09-17T01:56:04.628Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-09-17T01:56:04.629Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-17T01:56:04.696Z] [Firebase Plugin] VSCode notification server listening on port 40001
+[debug] [2025-09-17T01:56:05.058Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-09-17T01:56:05.063Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-17T01:56:05.112Z] [Firebase Plugin] User found:  akuma424424@gmail.com
+[info] [Firebase Plugin] (Core:Project) New user detected, fetching projects
+[debug] [2025-09-17T01:56:05.123Z] Checked if tokens are valid: true, expires at: 1758077764069
+[debug] [2025-09-17T01:56:05.131Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[info] [Firebase Plugin] Starting Data Connect toolkit (version 2.13.0) on port 50001
+[info] i  dataconnect: downloading dataconnect-emulator-2.13.0... {"metadata":{"emulator":{"name":"dataconnect"},"message":"downloading dataconnect-emulator-2.13.0..."}}
+[debug] [2025-09-17T01:56:06.842Z] >>> [apiv2][query] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-linux-v2.13.0 
+[debug] [2025-09-17T01:56:07.226Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-09-17T01:56:07.228Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[debug] [2025-09-17T01:56:07.311Z] <<< [apiv2][status] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-linux-v2.13.0 200
+[debug] [2025-09-17T01:56:07.313Z] <<< [apiv2][body] GET https://storage.googleapis.com/firemat-preview-drop/emulator/dataconnect-emulator-linux-v2.13.0 [stream]
+[info] i  dataconnect: Removing outdated emulator files: dataconnect-emulator-2.12.0 {"metadata":{"emulator":{"name":"dataconnect"},"message":"Removing outdated emulator files: dataconnect-emulator-2.12.0"}}
+[debug] [2025-09-17T01:56:41.378Z] W0917 01:56:41.366894   23422 build.go:56] Failed to construct deployment metadata: rpc error: code = NotFound desc = no schema found for service "motivateme-vwbmd". No service has a schema.
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"W0917 01:56:41.366894   23422 build.go:56] Failed to construct deployment metadata: rpc error: code = NotFound desc = no schema found for service \"motivateme-vwbmd\". No service has a schema.\n"}}
+[debug] [2025-09-17T01:56:41.395Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-09-17T01:56:41.395Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2025-09-17T01:56:41.400Z] Starting Data Connect Emulator with command {"binary":"/home/user/.cache/firebase/emulators/dataconnect-emulator-2.13.0","args":["--logtostderr","-v=2","dev","--listen=localhost:50001","--config_dir=/home/user/studio/dataconnect","--enable_output_schema_extensions=true","--enable_output_generated_sdk=true"],"optionalArgs":["listen","config_dir","enable_output_schema_extensions","enable_output_generated_sdk"],"joinArgs":true,"shell":false,"port":9399} {"metadata":{"emulator":{"name":"dataconnect"},"message":"Starting Data Connect Emulator with command {\"binary\":\"/home/user/.cache/firebase/emulators/dataconnect-emulator-2.13.0\",\"args\":[\"--logtostderr\",\"-v=2\",\"dev\",\"--listen=localhost:50001\",\"--config_dir=/home/user/studio/dataconnect\",\"--enable_output_schema_extensions=true\",\"--enable_output_generated_sdk=true\"],\"optionalArgs\":[\"listen\",\"config_dir\",\"enable_output_schema_extensions\",\"enable_output_generated_sdk\"],\"joinArgs\":true,\"shell\":false,\"port\":9399}"}}
+[info] i  dataconnect: Data Connect Emulator logging to dataconnect-debug.log {"metadata":{"emulator":{"name":"dataconnect"},"message":"Data Connect Emulator logging to dataconnect-debug.log"}}
+[debug] [2025-09-17T01:56:41.972Z] I0917 01:56:41.789287   23427 load.go:31] Reloading schema and connectors...
+E0917 01:56:41.843517   23427 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service "motivateme-vwbmd". No service has a schema.
+E0917 01:56:41.843618   23427 load.go:73] Could not load sources: 
+Errors: schema/schema.gql:9:14: Undefined directive column.
+I0917 01:56:41.847005   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] 
+I0917 01:56:41.847905   23427 load.go:74] Finished reloading
+I0917 01:56:41.953284   23427 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 01:56:41.789287   23427 load.go:31] Reloading schema and connectors...\nE0917 01:56:41.843517   23427 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service \"motivateme-vwbmd\". No service has a schema.\nE0917 01:56:41.843618   23427 load.go:73] Could not load sources: \nErrors: schema/schema.gql:9:14: Undefined directive column.\nI0917 01:56:41.847005   23427 collector.go:107] schema extensions wrote into \"/home/user/studio/dataconnect/.dataconnect/schema\"\nGenerated sources: prelude.gql [73251B] \nI0917 01:56:41.847905   23427 load.go:74] Finished reloading\nI0917 01:56:41.953284   23427 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001\n"}}
+[error] [Firebase Plugin] error:  {}
+[debug] [2025-09-17T02:07:41.878Z] I0917 02:07:41.849478   23427 load.go:31] Reloading schema and connectors...
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:07:41.849478   23427 load.go:31] Reloading schema and connectors...\n"}}
+[debug] [2025-09-17T02:07:41.884Z] E0917 02:07:41.883062   23427 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service "motivateme-vwbmd". No service has a schema.
+E0917 02:07:41.883124   23427 load.go:73] Could not load sources: 
+Errors: schema/schema.gql:9:14: Undefined directive column.
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"E0917 02:07:41.883062   23427 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service \"motivateme-vwbmd\". No service has a schema.\nE0917 02:07:41.883124   23427 load.go:73] Could not load sources: \nErrors: schema/schema.gql:9:14: Undefined directive column.\n"}}
+[debug] [2025-09-17T02:07:41.909Z] I0917 02:07:41.884128   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:07:41.884128   23427 collector.go:107] schema extensions wrote into \"/home/user/studio/dataconnect/.dataconnect/schema\"\nGenerated sources: prelude.gql [73251B] \n"}}
+[debug] [2025-09-17T02:07:41.910Z] I0917 02:07:41.909445   23427 load.go:74] Finished reloading
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:07:41.909445   23427 load.go:74] Finished reloading\n"}}
+[debug] [2025-09-17T02:08:01.849Z] I0917 02:08:01.849399   23427 load.go:31] Reloading schema and connectors...
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:08:01.849399   23427 load.go:31] Reloading schema and connectors...\n"}}
+[debug] [2025-09-17T02:08:01.860Z] E0917 02:08:01.859934   23427 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service "motivateme-vwbmd". No service has a schema.
+E0917 02:08:01.859996   23427 load.go:73] Could not load sources: 
+Errors: schema/schema.gql:2:14: Undefined directive column.
+I0917 02:08:01.860456   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] 
+I0917 02:08:01.860487   23427 load.go:74] Finished reloading
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"E0917 02:08:01.859934   23427 load.go:63] Could not generate extensions: rpc error: code = NotFound desc = no schema found for service \"motivateme-vwbmd\". No service has a schema.\nE0917 02:08:01.859996   23427 load.go:73] Could not load sources: \nErrors: schema/schema.gql:2:14: Undefined directive column.\nI0917 02:08:01.860456   23427 collector.go:107] schema extensions wrote into \"/home/user/studio/dataconnect/.dataconnect/schema\"\nGenerated sources: prelude.gql [73251B] \nI0917 02:08:01.860487   23427 load.go:74] Finished reloading\n"}}
+[debug] [2025-09-17T02:09:21.855Z] I0917 02:09:21.853422   23427 load.go:31] Reloading schema and connectors...
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:09:21.853422   23427 load.go:31] Reloading schema and connectors...\n"}}
+[debug] [2025-09-17T02:09:22.284Z] W0917 02:09:22.250247   23427 control.go:68] [/emulator/studio db79] connector "example" has errors: example/mutations.gql:13:8: Unknown fragment "Movie_Key".
+example/mutations.gql:6:3: Field "movie_insert" must not have a selection since type "Movie_KeyOutput" has no subfields.
+example/mutations.gql:23:8: Unknown fragment "User_Key".
+example/mutations.gql:18:3: Field "user_upsert" must not have a selection since type "User_KeyOutput" has no subfields.
+example/mutations.gql:40:8: Unknown fragment "Review_Key".
+example/mutations.gql:32:3: Field "review_upsert" must not have a selection since type "Review_KeyOutput" has no subfields.
+example/mutations.gql:54:8: Unknown fragment "Review_Key".
+example/mutations.gql:47:3: Unknown argument "where" on field "Mutation.review_delete".
+example/mutations.gql:47:3: Field "review_delete" must not have a selection since type "Review_KeyOutput" has no subfields.
+example/queries.gql:7:8: Unknown fragment "Movie_Key".
+example/queries.gql:14:8: Unknown fragment "User_Key".
+example/queries.gql:25:12: Unknown fragment "Movie_Key".
+example/queries.gql:21:5: Cannot query field "reviews" on type "User".
+example/queries.gql:31:8: Unknown fragment "User_Key".
+example/queries.gql:41:5: Cannot query field "metadata" on type "Movie". Did you mean "_metadata"?
+example/queries.gql:50:12: Unknown fragment "User_Key".
+example/queries.gql:46:5: Cannot query field "reviews" on type "Movie".
+example/queries.gql:56:8: Unknown fragment "Movie_Key".
+example/queries.gql:69:13: Field "_like" is not defined by type "String_Filter". Did you mean "le"?
+example/queries.gql:74:13: Field "_eq" is not defined by type "String_Filter". Did you mean "eq", "ne", "ge", or "le"?
+example/queries.gql:84:8: Unknown fragment "Movie_Key".
+
+sources: example/mutations.gql [750B] example/queries.gql [1036B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"W0917 02:09:22.250247   23427 control.go:68] [/emulator/studio db79] connector \"example\" has errors: example/mutations.gql:13:8: Unknown fragment \"Movie_Key\".\nexample/mutations.gql:6:3: Field \"movie_insert\" must not have a selection since type \"Movie_KeyOutput\" has no subfields.\nexample/mutations.gql:23:8: Unknown fragment \"User_Key\".\nexample/mutations.gql:18:3: Field \"user_upsert\" must not have a selection since type \"User_KeyOutput\" has no subfields.\nexample/mutations.gql:40:8: Unknown fragment \"Review_Key\".\nexample/mutations.gql:32:3: Field \"review_upsert\" must not have a selection since type \"Review_KeyOutput\" has no subfields.\nexample/mutations.gql:54:8: Unknown fragment \"Review_Key\".\nexample/mutations.gql:47:3: Unknown argument \"where\" on field \"Mutation.review_delete\".\nexample/mutations.gql:47:3: Field \"review_delete\" must not have a selection since type \"Review_KeyOutput\" has no subfields.\nexample/queries.gql:7:8: Unknown fragment \"Movie_Key\".\nexample/queries.gql:14:8: Unknown fragment \"User_Key\".\nexample/queries.gql:25:12: Unknown fragment \"Movie_Key\".\nexample/queries.gql:21:5: Cannot query field \"reviews\" on type \"User\".\nexample/queries.gql:31:8: Unknown fragment \"User_Key\".\nexample/queries.gql:41:5: Cannot query field \"metadata\" on type \"Movie\". Did you mean \"_metadata\"?\nexample/queries.gql:50:12: Unknown fragment \"User_Key\".\nexample/queries.gql:46:5: Cannot query field \"reviews\" on type \"Movie\".\nexample/queries.gql:56:8: Unknown fragment \"Movie_Key\".\nexample/queries.gql:69:13: Field \"_like\" is not defined by type \"String_Filter\". Did you mean \"le\"?\nexample/queries.gql:74:13: Field \"_eq\" is not defined by type \"String_Filter\". Did you mean \"eq\", \"ne\", \"ge\", or \"le\"?\nexample/queries.gql:84:8: Unknown fragment \"Movie_Key\".\n\nsources: example/mutations.gql [750B] example/queries.gql [1036B] \n"}}
+[debug] [2025-09-17T02:09:22.292Z] I0917 02:09:22.284885   23427 control.go:94] [/emulator/studio db79] UpdateResources(): done
+Schema: sources: schema/schema.gql [1992B] 
+Connector "example": sources: example/mutations.gql [750B] example/queries.gql [1036B] 
+E0917 02:09:22.291261   23427 load.go:73] Could not load sources: 
+Errors: example/mutations.gql:13:8: Unknown fragment "Movie_Key".
+example/mutations.gql:6:3: Field "movie_insert" must not have a selection since type "Movie_KeyOutput" has no subfields.
+example/mutations.gql:23:8: Unknown fragment "User_Key".
+example/mutations.gql:18:3: Field "user_upsert" must not have a selection since type "User_KeyOutput" has no subfields.
+example/mutations.gql:40:8: Unknown fragment "Review_Key".
+example/mutations.gql:32:3: Field "review_upsert" must not have a selection since type "Review_KeyOutput" has no subfields.
+example/mutations.gql:54:8: Unknown fragment "Review_Key".
+example/mutations.gql:47:3: Unknown argument "where" on field "Mutation.review_delete".
+example/mutations.gql:47:3: Field "review_delete" must not have a selection since type "Review_KeyOutput" has no subfields.
+example/queries.gql:7:8: Unknown fragment "Movie_Key".
+example/queries.gql:14:8: Unknown fragment "User_Key".
+example/queries.gql:25:12: Unknown fragment "Movie_Key".
+example/queries.gql:21:5: Cannot query field "reviews" on type "User".
+example/queries.gql:31:8: Unknown fragment "User_Key".
+example/queries.gql:41:5: Cannot query field "metadata" on type "Movie". Did you mean "_metadata"?
+example/queries.gql:50:12: Unknown fragment "User_Key".
+example/queries.gql:46:5: Cannot query field "reviews" on type "Movie".
+example/queries.gql:56:8: Unknown fragment "Movie_Key".
+example/queries.gql:69:13: Field "_like" is not defined by type "String_Filter". Did you mean "le"?
+example/queries.gql:74:13: Field "_eq" is not defined by type "String_Filter". Did you mean "eq", "ne", "ge", or "le"?
+example/queries.gql:84:8: Unknown fragment "Movie_Key".
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:09:22.284885   23427 control.go:94] [/emulator/studio db79] UpdateResources(): done\nSchema: sources: schema/schema.gql [1992B] \nConnector \"example\": sources: example/mutations.gql [750B] example/queries.gql [1036B] \nE0917 02:09:22.291261   23427 load.go:73] Could not load sources: \nErrors: example/mutations.gql:13:8: Unknown fragment \"Movie_Key\".\nexample/mutations.gql:6:3: Field \"movie_insert\" must not have a selection since type \"Movie_KeyOutput\" has no subfields.\nexample/mutations.gql:23:8: Unknown fragment \"User_Key\".\nexample/mutations.gql:18:3: Field \"user_upsert\" must not have a selection since type \"User_KeyOutput\" has no subfields.\nexample/mutations.gql:40:8: Unknown fragment \"Review_Key\".\nexample/mutations.gql:32:3: Field \"review_upsert\" must not have a selection since type \"Review_KeyOutput\" has no subfields.\nexample/mutations.gql:54:8: Unknown fragment \"Review_Key\".\nexample/mutations.gql:47:3: Unknown argument \"where\" on field \"Mutation.review_delete\".\nexample/mutations.gql:47:3: Field \"review_delete\" must not have a selection since type \"Review_KeyOutput\" has no subfields.\nexample/queries.gql:7:8: Unknown fragment \"Movie_Key\".\nexample/queries.gql:14:8: Unknown fragment \"User_Key\".\nexample/queries.gql:25:12: Unknown fragment \"Movie_Key\".\nexample/queries.gql:21:5: Cannot query field \"reviews\" on type \"User\".\nexample/queries.gql:31:8: Unknown fragment \"User_Key\".\nexample/queries.gql:41:5: Cannot query field \"metadata\" on type \"Movie\". Did you mean \"_metadata\"?\nexample/queries.gql:50:12: Unknown fragment \"User_Key\".\nexample/queries.gql:46:5: Cannot query field \"reviews\" on type \"Movie\".\nexample/queries.gql:56:8: Unknown fragment \"Movie_Key\".\nexample/queries.gql:69:13: Field \"_like\" is not defined by type \"String_Filter\". Did you mean \"le\"?\nexample/queries.gql:74:13: Field \"_eq\" is not defined by type \"String_Filter\". Did you mean \"eq\", \"ne\", \"ge\", or \"le\"?\nexample/queries.gql:84:8: Unknown fragment \"Movie_Key\".\n"}}
+[debug] [2025-09-17T02:09:22.303Z] I0917 02:09:22.296833   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] main/implicit.gql [1261B] main/input.gql [28173B] main/relation.gql [13746B] main/query.gql [5099B] main/mutation.gql [13679B] 
+I0917 02:09:22.296905   23427 load.go:74] Finished reloading
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:09:22.296833   23427 collector.go:107] schema extensions wrote into \"/home/user/studio/dataconnect/.dataconnect/schema\"\nGenerated sources: prelude.gql [73251B] main/implicit.gql [1261B] main/input.gql [28173B] main/relation.gql [13746B] main/query.gql [5099B] main/mutation.gql [13679B] \nI0917 02:09:22.296905   23427 load.go:74] Finished reloading\n"}}
+[debug] [2025-09-17T02:09:31.849Z] I0917 02:09:31.849342   23427 load.go:31] Reloading schema and connectors...
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:09:31.849342   23427 load.go:31] Reloading schema and connectors...\n"}}
+[debug] [2025-09-17T02:09:31.921Z] I0917 02:09:31.921634   23427 control.go:94] [/emulator/studio db79] UpdateResources(): done
+Connector "example": sources: example/mutations.gql [1243B] example/queries.gql [1801B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:09:31.921634   23427 control.go:94] [/emulator/studio db79] UpdateResources(): done\nConnector \"example\": sources: example/mutations.gql [1243B] example/queries.gql [1801B] \n"}}
+[debug] [2025-09-17T02:09:32.008Z] I0917 02:09:32.004100   23427 codegen.go:82] [connector "example" javascriptSdk] Generating sources into "/home/user/studio/src/dataconnect-generated"
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:09:32.004100   23427 codegen.go:82] [connector \"example\" javascriptSdk] Generating sources into \"/home/user/studio/src/dataconnect-generated\"\n"}}
+[debug] [2025-09-17T02:09:32.054Z] I0917 02:09:32.053728   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: prelude.gql [73251B] main/implicit.gql [1261B] main/input.gql [28173B] main/relation.gql [13746B] main/query.gql [5099B] main/mutation.gql [13679B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:09:32.053728   23427 collector.go:107] schema extensions wrote into \"/home/user/studio/dataconnect/.dataconnect/schema\"\nGenerated sources: prelude.gql [73251B] main/implicit.gql [1261B] main/input.gql [28173B] main/relation.gql [13746B] main/query.gql [5099B] main/mutation.gql [13679B] \n"}}
+[debug] [2025-09-17T02:09:32.063Z] I0917 02:09:32.060626   23427 collector.go:107] connector "example" javascriptSdk wrote into "/home/user/studio/src/dataconnect-generated"
+Generated sources: README.md [40931B] react/esm/package.json [17B] react/index.cjs.js [3439B] react/esm/index.esm.js [3269B] react/README.md [48299B] index.d.ts [8025B] esm/index.esm.js [3559B] esm/package.json [17B] index.cjs.js [4049B] react/index.d.ts [3961B] react/package.json [460B] package.json [863B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:09:32.060626   23427 collector.go:107] connector \"example\" javascriptSdk wrote into \"/home/user/studio/src/dataconnect-generated\"\nGenerated sources: README.md [40931B] react/esm/package.json [17B] react/index.cjs.js [3439B] react/esm/index.esm.js [3269B] react/README.md [48299B] index.d.ts [8025B] esm/index.esm.js [3559B] esm/package.json [17B] index.cjs.js [4049B] react/index.d.ts [3961B] react/package.json [460B] package.json [863B] \n"}}
+[debug] [2025-09-17T02:09:32.072Z] I0917 02:09:32.072667   23427 installsdk.go:55] Package @dataconnect/generated is already installed. Skipping installation
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:09:32.072667   23427 installsdk.go:55] Package @dataconnect/generated is already installed. Skipping installation\n"}}
+[debug] [2025-09-17T02:09:32.077Z] I0917 02:09:32.074758   23427 load.go:109] Finished reloading
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:09:32.074758   23427 load.go:109] Finished reloading\n"}}
+[debug] [2025-09-17T02:11:31.859Z] I0917 02:11:31.859199   23427 load.go:31] Reloading schema and connectors...
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:11:31.859199   23427 load.go:31] Reloading schema and connectors...\n"}}
+[debug] [2025-09-17T02:11:31.956Z] I0917 02:11:31.956167   23427 control.go:94] [/emulator/studio db79] UpdateResources(): done
+Schema: sources: schema/schema.gql [1991B] 
+Connector "example": sources: example/mutations.gql [1243B] example/queries.gql [1801B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:11:31.956167   23427 control.go:94] [/emulator/studio db79] UpdateResources(): done\nSchema: sources: schema/schema.gql [1991B] \nConnector \"example\": sources: example/mutations.gql [1243B] example/queries.gql [1801B] \n"}}
+[debug] [2025-09-17T02:11:32.028Z] I0917 02:11:32.028543   23427 codegen.go:82] [connector "example" javascriptSdk] Generating sources into "/home/user/studio/src/dataconnect-generated"
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:11:32.028543   23427 codegen.go:82] [connector \"example\" javascriptSdk] Generating sources into \"/home/user/studio/src/dataconnect-generated\"\n"}}
+[debug] [2025-09-17T02:11:32.054Z] I0917 02:11:32.054617   23427 collector.go:107] schema extensions wrote into "/home/user/studio/dataconnect/.dataconnect/schema"
+Generated sources: main/query.gql [5099B] main/mutation.gql [13679B] main/implicit.gql [1261B] prelude.gql [73251B] main/input.gql [28173B] main/relation.gql [13746B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:11:32.054617   23427 collector.go:107] schema extensions wrote into \"/home/user/studio/dataconnect/.dataconnect/schema\"\nGenerated sources: main/query.gql [5099B] main/mutation.gql [13679B] main/implicit.gql [1261B] prelude.gql [73251B] main/input.gql [28173B] main/relation.gql [13746B] \n"}}
+[debug] [2025-09-17T02:11:32.061Z] I0917 02:11:32.059968   23427 collector.go:107] connector "example" javascriptSdk wrote into "/home/user/studio/src/dataconnect-generated"
+Generated sources: index.d.ts [8025B] esm/index.esm.js [3559B] index.cjs.js [4049B] README.md [40931B] react/index.d.ts [3961B] react/package.json [460B] react/esm/package.json [17B] react/README.md [48299B] esm/package.json [17B] package.json [863B] react/index.cjs.js [3439B] react/esm/index.esm.js [3269B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:11:32.059968   23427 collector.go:107] connector \"example\" javascriptSdk wrote into \"/home/user/studio/src/dataconnect-generated\"\nGenerated sources: index.d.ts [8025B] esm/index.esm.js [3559B] index.cjs.js [4049B] README.md [40931B] react/index.d.ts [3961B] react/package.json [460B] react/esm/package.json [17B] react/README.md [48299B] esm/package.json [17B] package.json [863B] react/index.cjs.js [3439B] react/esm/index.esm.js [3269B] \n"}}
+[debug] [2025-09-17T02:11:32.082Z] I0917 02:11:32.081321   23427 installsdk.go:55] Package @dataconnect/generated is already installed. Skipping installation
+I0917 02:11:32.081392   23427 load.go:109] Finished reloading
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0917 02:11:32.081321   23427 installsdk.go:55] Package @dataconnect/generated is already installed. Skipping installation\nI0917 02:11:32.081392   23427 load.go:109] Finished reloading\n"}}
+[info] [Firebase Plugin] Stopping Data Connect toolkit
+[warn] ⚠  Data Connect Emulator has exited upon receiving signal: SIGINT 

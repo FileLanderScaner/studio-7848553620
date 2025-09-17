@@ -1,5 +1,5 @@
 specVersion: "v1"
-serviceId: "motivateme-vwbmd"
+serviceId: "studio"
 location: "us-central1"
 schema:
   source: "./schema"

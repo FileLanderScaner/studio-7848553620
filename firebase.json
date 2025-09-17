@@ -1,9 +1,7 @@
 {
-  "dataconnect": [
-    {
-      "source": "dataconnect"
-    }
-  ],
+  "dataconnect": {
+    "source": "dataconnect"
+  },
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
@@ -29,6 +27,11 @@
     ],
     "frameworksBackend": {
       "region": "us-central1"
+    }
+  },
+  "emulators": {
+    "dataconnect": {
+      "dataDir": "dataconnect/.dataconnect/pgliteData"
     }
   }
 }
